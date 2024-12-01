@@ -19,26 +19,25 @@ import sqlite3
 while True:
     os.system('cls')
     menu = input(
-        '| 1 - Adicionar | 2 - Atualizar | 3 - Exibir | 4 - Apagar | 5 - Sair | \nQual a opção desejada: ').strip()
+        '| 1 - Exibir | 2 - Adicionar | 3 - Atualizar | 4 - Apagar | 5 - Sair | \nQual a opção desejada: ').strip()
     if menu == '5':
         print('Parando!')
         break
-    elif menu == '1':
-        input('Adicionando: ')
-    elif menu == '2':
-        input('Atualizando: ')
-    elif menu == '3':
-        input('Exibindo: ')
-    elif menu == '4':
-        input('Apagando: ')
 
 
 # READ ----
+    elif menu == '1':
+        input('Exibindo: ')
 # Criando uma conexão com o banco de dados
 
-
 # CREATE ----
+    elif menu == '2':
+        input('Adicionando: ')
 
 # UPDATE ----
+    elif menu == '3':
+        input('Atualizando: ')
 
 # DELETE ----
+    elif menu == '4':
+        input('Apagando: ')

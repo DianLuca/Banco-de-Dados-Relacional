@@ -1,0 +1,1 @@
+# Manipulação dos itens dentro do banco de dados
