@@ -14,7 +14,10 @@
 # e, quando necessário, excluir registros de passagens.
 import os
 import sqlite3
+from database.manipulacao_db import criar_db
 
+
+input(criar_db())
 
 while True:
     os.system('cls')
