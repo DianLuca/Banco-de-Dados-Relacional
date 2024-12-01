@@ -99,5 +99,3 @@ def criar_db():
             print('Banco de Dados foi fechado!')
             conn.close()
 
-
-criar_db()

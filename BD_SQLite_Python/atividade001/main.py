@@ -15,9 +15,14 @@
 import os
 import sqlite3
 from database.manipulacao_db import criar_db
+from models.utils import funcao_teste_utils
+from services.crud_itens import funcao_teste_crud
 
 
-input(criar_db())
+funcao_teste_crud()
+funcao_teste_utils()
+criar_db()
+input('')
 
 while True:
     os.system('cls')
