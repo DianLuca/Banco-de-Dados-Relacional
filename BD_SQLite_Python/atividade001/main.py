@@ -16,13 +16,10 @@ import os
 import sqlite3
 from database.manipulacao_db import criar_db
 from models.utils import funcao_teste_utils
-from services.crud_itens import funcao_teste_crud
+from services.crud_itens import funcao_teste_crud, Exibir, Adicionar
 
 
-funcao_teste_crud()
-funcao_teste_utils()
-criar_db()
-input('')
+
 
 while True:
     os.system('cls')
@@ -35,11 +32,20 @@ while True:
 
 # READ ----
     elif menu == '1':
-        input('Exibindo: ')
+        exibe_tabela = input('Qual tabela você deseja exibir: ').lower().strip()
+        exibir = Exibir(exibe_tabela)
+        for k, v, p in exibir.exibir():
+            print(k, end=' | ')
+            print(v, end=' | ')
+            print(p, end=' | ')
+            print()
+            
+        input('Voltar ao menu: ')
 # Criando uma conexão com o banco de dados
 
 # CREATE ----
     elif menu == '2':
+        Adicionar('Aeroporto')
         input('Adicionando: ')
 
 # UPDATE ----
