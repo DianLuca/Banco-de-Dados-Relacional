@@ -13,13 +13,25 @@
 # cadastradas, atualizar informações(por exemplo, ajustar horários ou destinos)
 # e, quando necessário, excluir registros de passagens.
 import os
-import sqlite3
+import time
 from database.manipulacao_db import criar_db
 from models.utils import funcao_teste_utils
-from services.crud_itens import funcao_teste_crud, Exibir, Adicionar
+from services.crud_itens import Exibir, Adicionar
 
 
+sub_menu = {
+    '1': 'Aeroporto',
+    '2': 'Empresa',
+    '3': 'Escala',
+    '4': 'Gate',
+    '5': 'Passageiro',
+    '6': 'Passagem',
+    '7': 'Servico',
+    '8': 'Voo'
+}
 
+criar_db()
+time.sleep(2)
 
 while True:
     os.system('cls')
@@ -32,15 +44,17 @@ while True:
 
 # READ ----
     elif menu == '1':
-        menu_tabela = input('Qual tabela você deseja exibir: ').lower().strip()
-        exibir = Exibir(menu_tabela)
-        for k, v, p in exibir.exibir():
-            print(k, end=' | ')
-            print(v, end=' | ')
-            print(p, end=' | ')
-            print()
-            
-        input('Voltar ao menu: ')
+        while True:
+            os.system('cls')
+            for k, v in sub_menu.items():
+                print(f'{k} - {v}', end=' | ')
+            menu_tabela = input('\nQual tabela você deseja exibir: ').lower().strip()
+            menu_selecionado = sub_menu.get(menu_tabela, 'Passagem')
+            print(f'Exibindo a tabela de {menu_selecionado}(s)')
+            exibir = Exibir(menu_selecionado)
+            exibir.exibir()
+            input('Voltar ao menu: ')
+            break
 # Criando uma conexão com o banco de dados
 
 # CREATE ----

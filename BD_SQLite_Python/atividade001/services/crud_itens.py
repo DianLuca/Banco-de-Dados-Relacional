@@ -33,8 +33,14 @@ class Exibir(Crud):
 
         cursor.execute(f'SELECT * FROM {self.tabela}')
         resultados = cursor.fetchall()
-
-        return resultados
+        
+        for k, v, p in resultados:
+            print(k, end=' | ')
+            print(v, end=' | ')
+            print(p, end=' | ')
+            print()
+            
+        conn.close()
 
 
 class Adicionar(Crud):
