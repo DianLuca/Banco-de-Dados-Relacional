@@ -2,8 +2,8 @@
 import sqlite3
 
 
-def funcao_teste_crud():
-    print('módulo crud_itens.')
+
+# nome_colunas = []
 
 
 class Crud():
@@ -39,25 +39,29 @@ class Exibir(Crud):
 
 class Adicionar(Crud):
     def adicionar(self):
-        conn = sqlite3.connect(
-            '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\meu_banco.db')
+        try:
+            conn = sqlite3.connect(
+                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
 
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        aeroportos = [
-            ("Hartsfield-Jackson Atlanta International Airport", "Estados Unidos"),
-            ("Beijing Capital International Airport", "China"),
-            ("Dubai International Airport", "Emirados Árabes Unidos"),
-            ("Los Angeles International Airport", "Estados Unidos"),
-            ("Tokyo Haneda Airport", "Japão"),
-            ("O'Hare International Airport", "Estados Unidos"),
-            ("Heathrow Airport", "Reino Unido"),
-            ("Charles de Gaulle Airport", "França"),
-            ("Frankfurt Airport", "Alemanha"),
-            ("Singapore Changi Airport", "Singapura")
-        ]
+            # cursor.execute(f'PRAGMA table_info({self.tabela})')
+            # colunas = cursor.fetchall()
 
-        cursor.executemany(
-            f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', aeroportos)
-        conn.commit()
-        conn.close()
+            # # Trabalhando em uma forma que eu consiga manipular
+            # # todas as tabelas com um unico comando
+            # print(type(colunas))
+
+            # for coluna in colunas:
+            #     nome_colunas.append(coluna)
+
+            itens = []
+
+            cursor.executemany(
+
+                f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', itens)
+            conn.commit()
+            conn.close()
+
+        except sqlite3.Error as e:
+            print(f'Aconteceu um erro ao inserir o dados: \n{e}')

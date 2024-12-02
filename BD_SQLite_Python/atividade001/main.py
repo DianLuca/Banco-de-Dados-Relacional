@@ -32,8 +32,8 @@ while True:
 
 # READ ----
     elif menu == '1':
-        exibe_tabela = input('Qual tabela você deseja exibir: ').lower().strip()
-        exibir = Exibir(exibe_tabela)
+        menu_tabela = input('Qual tabela você deseja exibir: ').lower().strip()
+        exibir = Exibir(menu_tabela)
         for k, v, p in exibir.exibir():
             print(k, end=' | ')
             print(v, end=' | ')
@@ -45,7 +45,9 @@ while True:
 
 # CREATE ----
     elif menu == '2':
-        Adicionar('Aeroporto')
+        menu_adicionar = input('').strip().lower()
+        adicionando = Adicionar(menu_adicionar)
+        print(adicionando.adicionar())
         input('Adicionando: ')
 
 # UPDATE ----
