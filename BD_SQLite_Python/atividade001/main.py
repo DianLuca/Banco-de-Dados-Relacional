@@ -16,7 +16,7 @@ import os
 import time
 from database.manipulacao_db import criar_db
 from models.utils import funcao_teste_utils
-from services.crud_itens import Exibir, Adicionar
+from services.crud_itens import Exibir, Adicionar, Apagar
 
 
 sub_menu = {
@@ -92,7 +92,12 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_adicionar = input('\nEm qual tabela você deseja apagar um elemento: ').strip().lower()
+            menu_apagar = input('\nEm qual tabela você deseja apagar um elemento: ').strip().lower()
+            os.system('cls')
+            menu_selecionado = sub_menu.get(menu_apagar)
+            apagando = Apagar(menu_selecionado)
+            apagando.apagar()
+            
             
             
             input('Voltar ao menu principal: ')

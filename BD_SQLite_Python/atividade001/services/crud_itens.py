@@ -99,7 +99,7 @@ class Adicionar(Crud):
                 if sair != 's':
                     conn.close()
                     break
-                
+
             while self.tabela == 'Passageiro':
                 print(f'Inserindo um novo {self.tabela}:\n')
                 nome = input(f'Adicione o nome do {self.tabela}: ')
@@ -116,7 +116,7 @@ class Adicionar(Crud):
                     conn.close()
                     break
 
-            while self.tabela == 'Passagem':  
+            while self.tabela == 'Passagem':
                 print(f'Inserindo um novo {self.tabela}:\n')
                 id_passageiro = input('Insira o ID do passageiro: ')
                 id_voo = input('Insira o ID do voo: ')
@@ -172,6 +172,48 @@ class Adicionar(Crud):
                     conn.close()
                     break
 
+        except sqlite3.Error as e:
+            print(f'Aconteceu um erro ao inserir o dados: \n{e}')
+        except:
+            print('Houve um erro ao inserir um dado. Tente novamente!')
+
+
+class Apagar(Crud):
+    def apagar(self):
+        try:
+            conn = sqlite3.connect(
+                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
+
+            cursor = conn.cursor()
+
+            while self.tabela:
+                print(f'Apagando um item na tabela {self.tabela}:\n')
+                removido = input(
+                    f'Qual item você deseja apagar na tabela {self.tabela}: ')
+
+                cursor.execute(
+                    f'select id_{self.tabela} from {self.tabela} WHERE nome LIKE ?', (f"%{(removido)}%",))
+                resultado = cursor.fetchone()
+
+                if removido == '':
+                    print('Insira um valor para executar a operação!')
+                else:
+                    if resultado:
+                        id_aeroporto = resultado[0]
+                        # print(f'O ID do aeroporto é: {id_aeroporto}') para caso queria identificar o ID do elemento apagado
+                        cursor.execute(
+                            f'DELETE FROM {self.tabela} WHERE id_{self.tabela} = ?', (id_aeroporto,))
+                        conn.commit()
+
+                        print('O item foi removido com sucesso!')
+                    else:
+                        print('O item não está na lista ou não existe! ')
+
+                sair = input(
+                    'Deseja apagar mais algum item?(S - Sim) ').lower()
+                if sair != 's':
+                    conn.close()
+                    break
 
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
