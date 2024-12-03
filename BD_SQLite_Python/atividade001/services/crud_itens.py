@@ -14,7 +14,8 @@ class Crud():
         self.tabela = tabela
         print('OK!')
 
-    def adicionar(self):
+    def adicionar(self, tabela):
+        self.tabela = tabela
         pass
 
     def alterar(self):
@@ -34,11 +35,14 @@ class Exibir(Crud):
         cursor.execute(f'SELECT * FROM {self.tabela}')
         resultados = cursor.fetchall()
         
-        for k, v, p in resultados:
-            print(k, end=' | ')
-            print(v, end=' | ')
-            print(p, end=' | ')
-            print()
+        if resultados:
+            for k, v, p in resultados:
+                print(k, end=' | ')
+                print(v, end=' | ')
+                print(p, end=' | ')
+                print()
+        else:
+            print('Não há registros para exibir!')
             
         conn.close()
 
@@ -62,12 +66,44 @@ class Adicionar(Crud):
             #     nome_colunas.append(coluna)
 
             itens = []
-
-            cursor.executemany(
-
-                f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', itens)
-            conn.commit()
-            conn.close()
+            
+            if self.tabela == 'Aeroporto':
+                print(f'Inserindo um novo item na tabela {self.tabela}:\n')
+                nome = input(f'Adicione o nome do {self.tabela}: ')
+                pais = input(f'Insira o país do deste {self.tabela}: ')
+                cursor.execute(
+                    f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', (nome, pais))
+                conn.commit()
+                conn.close()
+                
+                print('O item foi inserido com sucesso!')
+            # if self.tabela == 'Passageiro':
+            #     print(f'Inserindo um novo {self.tabela}:\n')
+            #     cursor.executemany(
+            #         f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', itens)
+            # if self.tabela == 'Passagem':
+            #     print(f'Inserindo um novo {self.tabela}:\n')
+            #     cursor.executemany(
+            #         f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', itens)
+            # if self.tabela == 'Servico':
+            #     print(f'Inserindo um novo {self.tabela}:\n')
+            #     cursor.executemany(
+            #         f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', itens)
+            # if self.tabela == 'Voo':
+            #     print(f'Inserindo um novo {self.tabela}:\n')
+            #     cursor.executemany(
+            #         f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', itens)
+            # if self.tabela == 'Empresa':
+            #     print(f'Inserindo um novo {self.tabela}:\n')
+            #     cursor.executemany(
+            #         f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', itens)
+            # if self.tabela == 'Gate':
+            #     print(f'Inserindo um novo {self.tabela}:\n')
+            #     cursor.executemany(
+            #         f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', itens)
+            
+            # conn.commit()
+            # conn.close()
 
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')

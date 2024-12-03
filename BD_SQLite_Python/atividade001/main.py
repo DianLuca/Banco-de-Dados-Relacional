@@ -50,24 +50,47 @@ while True:
                 print(f'{k} - {v}', end=' | ')
             menu_tabela = input('\nQual tabela você deseja exibir: ').lower().strip()
             menu_selecionado = sub_menu.get(menu_tabela, 'Passagem')
-            print(f'Exibindo a tabela de {menu_selecionado}(s)')
+            print(f'\nExibindo a tabela de {menu_selecionado}(s)')
             exibir = Exibir(menu_selecionado)
             exibir.exibir()
-            input('Voltar ao menu: ')
+            input('\nVoltar ao menu: ')
             break
 # Criando uma conexão com o banco de dados
 
 # CREATE ----
     elif menu == '2':
-        menu_adicionar = input('').strip().lower()
-        adicionando = Adicionar(menu_adicionar)
-        print(adicionando.adicionar())
-        input('Adicionando: ')
+        while True:
+            os.system('cls')
+            for k, v in sub_menu.items():
+                print(f'{k} - {v}', end=' | ')
+            menu_adicionar = input('\nEm qual tabela você deseja adicionar um elemento: ').strip().lower()
+            menu_selecionado = sub_menu.get(menu_adicionar)
+            adicionando = Adicionar(menu_selecionado.title())
+            adicionando.adicionar()
+            
+            input('\nVoltar ao menu principal: ')
+            break
 
 # UPDATE ----
     elif menu == '3':
-        input('Atualizando: ')
+        while True:
+            os.system('cls')
+            for k, v in sub_menu.items():
+                print(f'{k} - {v}', end=' | ')
+            menu_adicionar = input('\nEm qual tabela você deseja atualizar um elemento: ').strip().lower()
+            
+            
+            input('Voltar ao menu principal: ')
+            break
 
 # DELETE ----
     elif menu == '4':
-        input('Apagando: ')
+        while True:
+            os.system('cls')
+            for k, v in sub_menu.items():
+                print(f'{k} - {v}', end=' | ')
+            menu_adicionar = input('\nEm qual tabela você deseja apagar um elemento: ').strip().lower()
+            
+            
+            input('Voltar ao menu principal: ')
+            break
