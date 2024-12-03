@@ -96,6 +96,5 @@ def criar_db():
         print(f"Erro no SQLite: {e}")
     finally:
         if conn:
-            print('Banco de Dados foi fechado!')
             conn.close()
 

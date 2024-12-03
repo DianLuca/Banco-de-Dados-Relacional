@@ -22,7 +22,7 @@ from services.crud_itens import Exibir, Adicionar
 sub_menu = {
     '1': 'Aeroporto',
     '2': 'Empresa',
-    '3': 'Escala',
+    '3': 'Escala', # Pensando em remover essa opção
     '4': 'Gate',
     '5': 'Passageiro',
     '6': 'Passagem',
@@ -31,7 +31,9 @@ sub_menu = {
 }
 
 criar_db()
+print(f'Programa iniciando aguarde! ')
 time.sleep(2)
+
 
 while True:
     os.system('cls')
@@ -64,6 +66,7 @@ while True:
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
             menu_adicionar = input('\nEm qual tabela você deseja adicionar um elemento: ').strip().lower()
+            os.system('cls')
             menu_selecionado = sub_menu.get(menu_adicionar)
             adicionando = Adicionar(menu_selecionado.title())
             adicionando.adicionar()
