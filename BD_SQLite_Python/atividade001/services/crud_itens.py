@@ -219,3 +219,40 @@ class Apagar(Crud):
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
         except:
             print('Houve um erro ao inserir um dado. Tente novamente!')
+
+
+class Alterar(Crud):
+    def alterar(self):
+        try:
+            conn = sqlite3.connect(
+                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
+
+            cursor = conn.cursor()
+
+            while self.tabela:
+                print(f'Apagando um item na tabela {self.tabela}:\n')
+                alterando_item = input(
+                    f'Qual item você deseja atualizar na tabela {self.tabela}: ')
+                cursor.execute(
+                    f'select * from {self.tabela} WHERE nome LIKE ?', (f"%{(alterando_item)}%",))
+                resultado = cursor.fetchone()
+                
+                for v in resultado:
+                    print(v, end=' | ')
+                print()
+                
+                campo = input('Qual campo você deseja alterar? ')
+                novo_dado = input('Insira o valor para o qual o item será alterado: ')
+                cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                
+                conn.commit()
+                sair = input(
+                    'Deseja alterar mais algum item?(S - Sim) ').lower()
+                if sair != 's':
+                    conn.close()
+                    break
+                
+        except sqlite3.Error as e:
+            print(f'Aconteceu um erro ao inserir o dados: \n{e}')
+        except:
+            print('Houve um erro ao inserir um dado. Tente novamente!')
