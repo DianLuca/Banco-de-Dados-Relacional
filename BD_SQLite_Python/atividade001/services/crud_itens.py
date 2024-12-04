@@ -230,22 +230,26 @@ class Alterar(Crud):
             cursor = conn.cursor()
 
             while self.tabela:
-                print(f'Apagando um item na tabela {self.tabela}:\n')
+                print(f'Alterando um item na tabela {self.tabela}:\n')
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
-                cursor.execute(
-                    f'select * from {self.tabela} WHERE nome LIKE ?', (f"%{(alterando_item)}%",))
-                resultado = cursor.fetchone()
                 
-                for v in resultado:
-                    print(v, end=' | ')
-                print()
-                
-                campo = input('Qual campo você deseja alterar? ')
-                novo_dado = input('Insira o valor para o qual o item será alterado: ')
-                cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
-                
-                conn.commit()
+                if alterando_item:
+                    cursor.execute(
+                        f'select * from {self.tabela} WHERE nome LIKE ?', (f"%{(alterando_item)}%",))
+                    resultado = cursor.fetchone()
+                    
+                    for v in resultado:
+                        print(v, end=' | ')
+                    print()
+                    
+                    campo = input('Qual campo você deseja alterar? ')
+                    novo_dado = input('Insira o valor para o qual o item será alterado: ')
+                    cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                    
+                    conn.commit()
+                else: 
+                    print('Insira um valor para executar a operação!')
                 sair = input(
                     'Deseja alterar mais algum item?(S - Sim) ').lower()
                 if sair != 's':
