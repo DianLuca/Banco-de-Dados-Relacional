@@ -1,5 +1,6 @@
 # Manipulação dos itens dentro do banco de dados
 import sqlite3
+from prettytable import PrettyTable as p
 
 
 # nome_colunas = []
@@ -35,11 +36,14 @@ class Exibir(Crud):
         resultados = cursor.fetchall()
 
         if resultados:
-            for k, v, p in resultados:
-                print(k, end=' | ')
-                print(v, end=' | ')
-                print(p, end=' | ')
-                print()
+            exibir_tabela = p
+            
+            colunas = [descricao[0] for descricao in cursor.description]
+            
+            exibir_tabela.field_names = colunas
+            
+            for row in resultados:
+                exibir_tabela.add_row(row)
         else:
             print('Não há registros para exibir!')
 
