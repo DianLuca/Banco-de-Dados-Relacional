@@ -63,8 +63,8 @@ class Adicionar(Crud):
 
             while self.tabela == 'Aeroporto':
                 print(f'Inserindo um novo item na tabela {self.tabela}:\n')
-                nome = input(f'Adicione o nome do {self.tabela}: ')
-                pais = input(f'Insira o país do deste {self.tabela}: ')
+                nome = input(f'Adicione o nome do {self.tabela}: ').title()
+                pais = input(f'Insira o país do deste {self.tabela}: ').title()
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', (nome, pais,))
                 conn.commit()
@@ -79,7 +79,7 @@ class Adicionar(Crud):
 
             while self.tabela == 'Empresa':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                nome = input(f'Adicione o nome da {self.tabela} aérea: ')
+                nome = input(f'Adicione o nome da {self.tabela} aérea: ').title()
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(nome) VALUES (?)', (nome,))
                 conn.commit()
@@ -94,7 +94,7 @@ class Adicionar(Crud):
 
             while self.tabela == 'Gate':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                identificador = input(f'Adicione o nome do {self.tabela}: ')
+                identificador = input(f'Adicione o nome do {self.tabela}: ').title()
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(identificador) VALUES (?)', (identificador,))
                 conn.commit()
@@ -109,7 +109,7 @@ class Adicionar(Crud):
 
             while self.tabela == 'Passageiro':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                nome = input(f'Adicione o nome do {self.tabela}: ')
+                nome = input(f'Adicione o nome do {self.tabela}: ').title()
                 idade = int(input(f'Adicione a idade do {self.tabela}: '))
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', (nome, idade,))
@@ -144,7 +144,7 @@ class Adicionar(Crud):
 
             while self.tabela == 'Servico':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                classe = input(f'Adicione o nome do {self.tabela}: ')
+                classe = input(f'Adicione o nome do {self.tabela}: ').title()
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(classe) VALUES (?)', (classe,))
                 conn.commit()
@@ -159,7 +159,7 @@ class Adicionar(Crud):
 
             while self.tabela == 'Voo':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                numero_voo = input(f'Adicione o número do {self.tabela}: ')
+                numero_voo = input(f'Adicione o número do {self.tabela}: ').title()
                 id_origem = int(
                     input(f'Adicione o id da origem do {self.tabela}: '))
                 id_destino = int(
@@ -201,7 +201,7 @@ class Apagar(Crud):
                 exibir = Exibir(self.tabela)
                 exibir.exibir()
                 removido = input(
-                    f'Qual item você deseja apagar na tabela {self.tabela}: ')
+                    f'Qual item você deseja apagar na tabela {self.tabela}: ').title()
 
                 cursor.execute(
                     f'select id_{self.tabela} from {self.tabela} WHERE nome LIKE ?', (f"%{(removido)}%",))
@@ -249,22 +249,28 @@ class Alterar(Crud):
                 exibir = Exibir(self.tabela)
                 exibir.exibir()
                 alterando_item = input(
-                    f'Qual item você deseja atualizar na tabela {self.tabela}: ')
+                    f'Qual item você deseja atualizar na tabela {self.tabela}: ').title()
                 
                 if alterando_item:
                     cursor.execute(
                         f'select * from {self.tabela} WHERE nome LIKE ?', (f"%{(alterando_item)}%",))
                     resultado = cursor.fetchone()
                     
-                    for v in resultado:
-                        print(v, end=' | ')
-                    print()
+                    if resultado:
+                        for v in resultado:
+                            print(v, end=' | ')
+                            print()
+                            
                     
-                    campo = input('Qual campo você deseja alterar? ')
-                    novo_dado = input('Insira o valor para o qual o item será alterado: ')
-                    cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                        campo = input('Qual campo você deseja alterar? ')
+                        novo_dado = input('Insira o valor para o qual o item será alterado: ').title()
+                        cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                        
+                        conn.commit()
                     
-                    conn.commit()
+                    else:
+                        print('O item selecionado não existe!')
+                        
                 else: 
                     print('Insira um valor para executar a operação!')
                 sair = input(
