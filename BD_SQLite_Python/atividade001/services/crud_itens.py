@@ -257,16 +257,22 @@ class Alterar(Crud):
                     resultado = cursor.fetchone()
                     
                     if resultado:
-                        for v in resultado:
-                            print(v, end=' | ')
-                            print()
+                        colunas = [descricao[0] for descricao in cursor.description]
+
+                        # Imprime o par nome-coluna e valor utilizando zip
+                        for k, v in zip(colunas, resultado):
+                            print(f"{k}: {v}", end=" | ")
+                        print()
                             
-                    
                         campo = input('Qual campo você deseja alterar? ')
-                        novo_dado = input('Insira o valor para o qual o item será alterado: ').title()
-                        cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                        if campo == (f'id_{self.tabela}').lower():
+                            print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
+                        else:
+                            novo_dado = input('Insira o valor para o qual o item será alterado: ').title()
+                            cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                            print(f'O item {alterando_item} foi alterado para {novo_dado} com sucesso!')
                         
-                        conn.commit()
+                            conn.commit()
                     
                     else:
                         print('O item selecionado não existe!')
