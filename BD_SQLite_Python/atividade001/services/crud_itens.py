@@ -66,7 +66,7 @@ class Adicionar(Crud):
                 nome = input(f'Adicione o nome do {self.tabela}: ')
                 pais = input(f'Insira o país do deste {self.tabela}: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', (nome, pais))
+                    f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', (nome, pais,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -81,7 +81,7 @@ class Adicionar(Crud):
                 print(f'Inserindo um novo {self.tabela}:\n')
                 nome = input(f'Adicione o nome da {self.tabela} aérea: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(nome) VALUES (?)', (nome))
+                    f'INSERT INTO {self.tabela}(nome) VALUES (?)', (nome,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -96,7 +96,7 @@ class Adicionar(Crud):
                 print(f'Inserindo um novo {self.tabela}:\n')
                 identificador = input(f'Adicione o nome do {self.tabela}: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(identificador) VALUES (?, ?)', (identificador))
+                    f'INSERT INTO {self.tabela}(identificador) VALUES (?, ?)', (identificador,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -112,7 +112,7 @@ class Adicionar(Crud):
                 nome = input(f'Adicione o nome do {self.tabela}: ')
                 idade = int(input(f'Adicione a idade do {self.tabela}: '))
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', (nome, idade))
+                    f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', (nome, idade,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -131,7 +131,7 @@ class Adicionar(Crud):
                 id_gate = input('Insira o ID do gate: ')
                 id_servico = input('Insira o ID do serviço: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico) VALUES (?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico))
+                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico) VALUES (?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -146,7 +146,7 @@ class Adicionar(Crud):
                 print(f'Inserindo um novo {self.tabela}:\n')
                 classe = input(f'Adicione o nome do {self.tabela}: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(classe) VALUES (?)', (classe))
+                    f'INSERT INTO {self.tabela}(classe) VALUES (?)', (classe,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -168,7 +168,7 @@ class Adicionar(Crud):
                 data_retorno = input(
                     f'Adicione a data de retorno do {self.tabela}: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(numero_voo, id_origem, id_destino, data_ida, data_retorno) VALUES (?, ?, ?, ?, ?)', (numero_voo, id_origem, id_destino, data_ida, data_retorno))
+                    f'INSERT INTO {self.tabela}(numero_voo, id_origem, id_destino, data_ida, data_retorno) VALUES (?, ?, ?, ?, ?)', (numero_voo, id_origem, id_destino, data_ida, data_retorno,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
