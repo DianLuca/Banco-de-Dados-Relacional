@@ -1,6 +1,6 @@
 # Manipulação dos itens dentro do banco de dados
 import sqlite3
-from prettytable import PrettyTable as p
+from prettytable import PrettyTable
 
 
 # nome_colunas = []
@@ -36,7 +36,7 @@ class Exibir(Crud):
         resultados = cursor.fetchall()
 
         if resultados:
-            exibir_tabela = p
+            exibir_tabela = PrettyTable()
             
             colunas = [descricao[0] for descricao in cursor.description]
             
@@ -44,6 +44,8 @@ class Exibir(Crud):
             
             for row in resultados:
                 exibir_tabela.add_row(row)
+                
+            print(exibir_tabela)
         else:
             print('Não há registros para exibir!')
 
@@ -192,6 +194,8 @@ class Apagar(Crud):
 
             while self.tabela:
                 print(f'Apagando um item na tabela {self.tabela}:\n')
+                exibir = Exibir(self.tabela)
+                exibir.exibir()
                 removido = input(
                     f'Qual item você deseja apagar na tabela {self.tabela}: ')
 
@@ -235,6 +239,8 @@ class Alterar(Crud):
 
             while self.tabela:
                 print(f'Alterando um item na tabela {self.tabela}:\n')
+                exibir = Exibir(self.tabela)
+                exibir.exibir()
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
                 
