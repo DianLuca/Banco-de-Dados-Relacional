@@ -52,11 +52,6 @@ def criar_db():
             );  
         ''')
 
-        cursor.execute(''' CREATE TABLE IF NOT EXISTS Escala (
-            id_escala INTEGER PRIMARY KEY,
-            numero_escala TEXT NOT NULL UNIQUE
-            );        
-        ''')
 
         cursor.execute(''' CREATE TABLE IF NOT EXISTS Voo (
             id_voo INTEGER PRIMARY KEY,
@@ -76,13 +71,11 @@ def criar_db():
             id_empresa INTEGER NOT NULL,
             id_gate INTEGER NOT NULL,
             id_servico INTEGER NOT NULL,
-            id_numero_de_escala INTEGER DEFAULT 1,
             FOREIGN KEY (id_passageiro) REFERENCES Passageiro(id_passageiro),
             FOREIGN KEY (id_voo) REFERENCES Voo(id_voo),
             FOREIGN KEY (id_empresa) REFERENCES Empresa(id_empresa),
             FOREIGN KEY (id_gate) REFERENCES Gate(id_gate),
-            FOREIGN KEY (id_servico) REFERENCES Servico(id_servico),
-            FOREIGN KEY (id_numero_de_escala) REFERENCES Escala(id_escala)
+            FOREIGN KEY (id_servico) REFERENCES Servico(id_servico)
             );
         ''')
 
