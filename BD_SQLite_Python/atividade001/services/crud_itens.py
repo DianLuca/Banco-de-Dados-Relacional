@@ -131,7 +131,7 @@ class Adicionar(Crud):
                 id_gate = input('Insira o ID do gate: ')
                 id_servico = input('Insira o ID do serviço: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico) VALUES (?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico,))
+                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico) VALUES (?, ?, ?, ?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -159,14 +159,14 @@ class Adicionar(Crud):
 
             while self.tabela == 'Voo':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                numero_voo = input(f'Adicione o número do {self.tabela}: ').title()
+                numero_voo = input(f'Adicione o número do {self.tabela}: ').capitalize()
                 id_origem = int(
                     input(f'Adicione o id da origem do {self.tabela}: '))
                 id_destino = int(
                     input(f'Adicione o id do destino do {self.tabela}: '))
-                data_ida = input(f'Adicione a data de ida do {self.tabela}: ')
+                data_ida = input(f'Adicione a data de ida do {self.tabela}:(Ex: 01-01-2000) ')
                 data_retorno = input(
-                    f'Adicione a data de retorno do {self.tabela}: ')
+                    f'Adicione a data de retorno do {self.tabela}:(Ex: 01-01-2000)(Este campo não é obrigátorio!) ')
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(numero_voo, id_origem, id_destino, data_ida, data_retorno) VALUES (?, ?, ?, ?, ?)', (numero_voo, id_origem, id_destino, data_ida, data_retorno,))
                 conn.commit()
@@ -249,7 +249,7 @@ class Alterar(Crud):
                 exibir = Exibir(self.tabela)
                 exibir.exibir()
                 alterando_item = input(
-                    f'Qual item você deseja atualizar na tabela {self.tabela}: ').title()
+                    f'Qual item você deseja atualizar na tabela {self.tabela}: ')
                 
                 if alterando_item:
                     cursor.execute(
@@ -268,7 +268,7 @@ class Alterar(Crud):
                         if campo == (f'id_{self.tabela}').lower():
                             print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
                         else:
-                            novo_dado = input('Insira o valor para o qual o item será alterado: ').title()
+                            novo_dado = input('Insira o valor para o qual o item será alterado: ')
                             cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
                             print(f'O item {alterando_item} foi alterado para {novo_dado} com sucesso!')
                         
