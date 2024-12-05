@@ -96,7 +96,7 @@ class Adicionar(Crud):
                 print(f'Inserindo um novo {self.tabela}:\n')
                 identificador = input(f'Adicione o nome do {self.tabela}: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(identificador) VALUES (?, ?)', (identificador,))
+                    f'INSERT INTO {self.tabela}(identificador) VALUES (?)', (identificador,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')

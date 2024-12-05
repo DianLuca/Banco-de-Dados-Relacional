@@ -35,7 +35,7 @@ def criar_db():
         ''')
 
         cursor.execute(''' CREATE TABLE IF NOT EXISTS Empresa (
-            id_empresa INTERGER PRIMARY KEY,
+            id_empresa INTEGER PRIMARY KEY,
             nome TEXT NOT NULL
             ); 
         ''')
