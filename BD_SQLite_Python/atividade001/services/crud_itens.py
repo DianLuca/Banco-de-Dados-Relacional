@@ -180,8 +180,10 @@ class Adicionar(Crud):
 
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
+            conn.close()
         except:
             print('Houve um erro ao inserir um dado. Tente novamente!')
+            conn.close()
 
 
 class Apagar(Crud):
@@ -225,8 +227,10 @@ class Apagar(Crud):
 
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
+            conn.close()
         except:
             print('Houve um erro ao inserir um dado. Tente novamente!')
+            conn.close()
 
 
 class Alterar(Crud):
@@ -268,5 +272,7 @@ class Alterar(Crud):
                 
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
+            conn.close()
         except:
             print('Houve um erro ao inserir um dado. Tente novamente!')
+            conn.close()
