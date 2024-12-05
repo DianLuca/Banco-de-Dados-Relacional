@@ -11,7 +11,7 @@ cursor.execute('SELECT * FROM clientes')
 resultados = cursor.fetchall()
 
 # Saída sem formatação
-os.system('cls')
+# os.system('cls')
 for row in resultados:
     print(row)
 
