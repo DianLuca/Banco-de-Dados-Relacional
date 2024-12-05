@@ -22,12 +22,11 @@ from services.crud_itens import Exibir, Adicionar, Alterar, Apagar
 sub_menu = {
     '1': 'Aeroporto',
     '2': 'Empresa',
-    '3': 'Escala', # Pensando em remover essa opção
-    '4': 'Gate',
-    '5': 'Passageiro',
-    '6': 'Passagem',
-    '7': 'Servico',
-    '8': 'Voo'
+    '3': 'Gate',
+    '4': 'Passageiro',
+    '5': 'Passagem',
+    '6': 'Servico',
+    '7': 'Voo'
 }
 
 criar_db()
