@@ -284,10 +284,12 @@ class Alterar(Crud):
                     
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
+                
+                campo = input('Qual campo você deseja alterar? ').lower()
 
                 if alterando_item:
                     cursor.execute(
-                        f'select * from {self.tabela} WHERE nome LIKE ?', (f"%{(alterando_item)}%",))
+                        f'select * from {self.tabela} WHERE {campo} LIKE ?', (f"%{(alterando_item)}%",))
                     resultado = cursor.fetchone()
 
                     if resultado:
@@ -299,7 +301,7 @@ class Alterar(Crud):
                             print(f"{k}: {v}", end=" | ")
                         print()
 
-                        campo = input('Qual campo você deseja alterar? ')
+                        # campo = input('Qual campo você deseja alterar? ')
                         if campo == (f'id_{self.tabela}').lower():
                             print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
                         else:
