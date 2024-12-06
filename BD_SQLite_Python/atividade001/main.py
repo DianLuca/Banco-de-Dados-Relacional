@@ -15,7 +15,7 @@
 import os
 import time
 from database.manipulacao_db import criar_db
-from models.utils import funcao_teste_utils
+# from models.utils import funcao_teste_utils # Ainda não foi implementado
 from services.crud_itens import Exibir, Adicionar, Alterar, Apagar
 
 
