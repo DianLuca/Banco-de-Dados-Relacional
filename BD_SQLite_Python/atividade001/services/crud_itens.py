@@ -11,8 +11,9 @@ class Crud():
     def __init__(self, tabela):
         self.tabela = tabela
 
-    def exibir(self, tabela):
+    def exibir(self, tabela, menu):
         self.tabela = tabela
+        self.menu = menu
         print('OK!')
 
     def adicionar(self, tabela):
@@ -28,6 +29,7 @@ class Crud():
 
 class Exibir(Crud):
     def exibir(self):
+        
         conn = sqlite3.connect(
             '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
 
@@ -258,8 +260,28 @@ class Alterar(Crud):
             while self.tabela:
                 os.system('cls')
                 print(f'Alterando um item na tabela {self.tabela}:\n')
-                exibir = Exibir(self.tabela)
-                exibir.exibir()
+                if self.tabela == 'Passagem':
+                    cursor.execute(f'SELECT * FROM {self.tabela}')
+                    resultados = cursor.fetchall()
+
+                    if resultados:
+                        exibir_tabela = PrettyTable()
+
+                        colunas = [descricao[0] for descricao in cursor.description]
+
+                        exibir_tabela.field_names = colunas
+
+                        for row in resultados:
+                            exibir_tabela.add_row(row)
+
+                        print(exibir_tabela)
+                    else:
+                        print('Não há registros para exibir!')
+                        
+                else:
+                    exibir = Exibir(self.tabela)
+                    exibir.exibir()
+                    
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
 
@@ -284,7 +306,7 @@ class Alterar(Crud):
                             novo_dado = input(
                                 'Insira o valor para o qual o item será alterado: ')
                             cursor.execute(
-                                f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                                f'UPDATE {self.tabela} SET {campo} = ? WHERE {campo} = ?', (novo_dado, alterando_item))
                             print(
                                 f'O item {alterando_item} foi alterado para {novo_dado} com sucesso!')
 
