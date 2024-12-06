@@ -33,19 +33,27 @@ class Exibir(Crud):
 
         cursor = conn.cursor()
 
-        cursor.execute(f'SELECT * FROM {self.tabela}')
+        if self.tabela == 'Passagem':
+            cursor.execute('SELECT id_passagem AS ID, passageiro.nome as NOME, passageiro.idade AS IDADE, empresa.nome AS EMPRESA, '
+                           + 'gate.identificador AS GATE, servico.classe AS CLASSE, voo.numero_voo AS VOO, origem.nome AS ORIGEM, '
+                           + 'destino.nome AS DESTINO FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
+                           + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
+                           + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
+                           + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
+        else:
+            cursor.execute(f'SELECT * FROM {self.tabela}')
         resultados = cursor.fetchall()
 
         if resultados:
             exibir_tabela = PrettyTable()
-            
+
             colunas = [descricao[0] for descricao in cursor.description]
-            
+
             exibir_tabela.field_names = colunas
-            
+
             for row in resultados:
                 exibir_tabela.add_row(row)
-                
+
             print(exibir_tabela)
         else:
             print('Não há registros para exibir!')
@@ -79,7 +87,8 @@ class Adicionar(Crud):
 
             while self.tabela == 'Empresa':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                nome = input(f'Adicione o nome da {self.tabela} aérea: ').title()
+                nome = input(
+                    f'Adicione o nome da {self.tabela} aérea: ').title()
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(nome) VALUES (?)', (nome,))
                 conn.commit()
@@ -94,7 +103,8 @@ class Adicionar(Crud):
 
             while self.tabela == 'Gate':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                identificador = input(f'Adicione o nome do {self.tabela}: ').title()
+                identificador = input(
+                    f'Adicione o nome do {self.tabela}: ').title()
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(identificador) VALUES (?)', (identificador,))
                 conn.commit()
@@ -159,12 +169,14 @@ class Adicionar(Crud):
 
             while self.tabela == 'Voo':
                 print(f'Inserindo um novo {self.tabela}:\n')
-                numero_voo = input(f'Adicione o número do {self.tabela}: ').capitalize()
+                numero_voo = input(
+                    f'Adicione o número do {self.tabela}: ').capitalize()
                 id_origem = int(
                     input(f'Adicione o id da origem do {self.tabela}: '))
                 id_destino = int(
                     input(f'Adicione o id do destino do {self.tabela}: '))
-                data_ida = input(f'Adicione a data de ida do {self.tabela}:(Ex: 01-01-2000) ')
+                data_ida = input(
+                    f'Adicione a data de ida do {self.tabela}:(Ex: 01-01-2000) ')
                 data_retorno = input(
                     f'Adicione a data de retorno do {self.tabela}:(Ex: 01-01-2000)(Este campo não é obrigátorio!) ')
                 cursor.execute(
@@ -250,41 +262,45 @@ class Alterar(Crud):
                 exibir.exibir()
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
-                
+
                 if alterando_item:
                     cursor.execute(
                         f'select * from {self.tabela} WHERE nome LIKE ?', (f"%{(alterando_item)}%",))
                     resultado = cursor.fetchone()
-                    
+
                     if resultado:
-                        colunas = [descricao[0] for descricao in cursor.description]
+                        colunas = [descricao[0]
+                                   for descricao in cursor.description]
 
                         # Imprime o par nome-coluna e valor utilizando zip
                         for k, v in zip(colunas, resultado):
                             print(f"{k}: {v}", end=" | ")
                         print()
-                            
+
                         campo = input('Qual campo você deseja alterar? ')
                         if campo == (f'id_{self.tabela}').lower():
                             print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
                         else:
-                            novo_dado = input('Insira o valor para o qual o item será alterado: ')
-                            cursor.execute(f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
-                            print(f'O item {alterando_item} foi alterado para {novo_dado} com sucesso!')
-                        
+                            novo_dado = input(
+                                'Insira o valor para o qual o item será alterado: ')
+                            cursor.execute(
+                                f'UPDATE {self.tabela} SET {campo} = ? WHERE nome = ?', (novo_dado, alterando_item))
+                            print(
+                                f'O item {alterando_item} foi alterado para {novo_dado} com sucesso!')
+
                             conn.commit()
-                    
+
                     else:
                         print('O item selecionado não existe!')
-                        
-                else: 
+
+                else:
                     print('Insira um valor para executar a operação!')
                 sair = input(
                     'Deseja alterar mais algum item?(S - Sim) ').lower()
                 if sair != 's':
                     conn.close()
                     break
-                
+
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
             conn.close()
