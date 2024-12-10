@@ -15,7 +15,6 @@
 import os
 import time
 from database.manipulacao_db import criar_db
-# from models.utils import funcao_teste_utils # Ainda não foi implementado
 from services.crud_itens import Exibir, Adicionar, Alterar, Apagar
 
 
@@ -49,7 +48,8 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_tabela = input('\nQual tabela você deseja exibir: ').lower().strip()
+            menu_tabela = input(
+                '\nQual tabela você deseja exibir: ').lower().strip()
             menu_selecionado = sub_menu.get(menu_tabela, 'Passagem')
             print(f'\nExibindo a tabela de {menu_selecionado}(s)')
             exibir = Exibir(menu_selecionado)
@@ -64,12 +64,13 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_adicionar = input('\nEm qual tabela você deseja adicionar um elemento: ').strip().lower()
+            menu_adicionar = input(
+                '\nEm qual tabela você deseja adicionar um elemento: ').strip().lower()
             os.system('cls')
             menu_selecionado = sub_menu.get(menu_adicionar)
             adicionando = Adicionar(menu_selecionado.title())
             adicionando.adicionar()
-            
+
             input('\nVoltar ao menu principal: ')
             break
 
@@ -79,12 +80,12 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_alterar = input('\nEm qual tabela você deseja atualizar um elemento: ').strip().lower()
+            menu_alterar = input(
+                '\nEm qual tabela você deseja atualizar um elemento: ').strip().lower()
             menu_selecionado = sub_menu.get(menu_alterar)
             alterando = Alterar(menu_selecionado.title())
             alterando.alterar()
-            
-            
+
             input('Voltar ao menu principal: ')
             break
 
@@ -94,13 +95,12 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_apagar = input('\nEm qual tabela você deseja apagar um elemento: ').strip().lower()
+            menu_apagar = input(
+                '\nEm qual tabela você deseja apagar um elemento: ').strip().lower()
             os.system('cls')
             menu_selecionado = sub_menu.get(menu_apagar)
             apagando = Apagar(menu_selecionado)
             apagando.apagar()
-            
-            
-            
+
             input('Voltar ao menu principal: ')
             break

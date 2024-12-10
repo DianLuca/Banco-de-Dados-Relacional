@@ -12,10 +12,10 @@ def criar_db():
     colocado algumas exceções para evitar que o programa feche. 
     Atualizações ainda podem ser consideradas.
     """
-    conn = None # variável declarada anteriormente para o caso de o 
+    conn = None  # variável declarada anteriormente para o caso de o
     # banco não seja encontrado.
     try:
-        # conn = sqlite3.connect('') # Para execução de testes. 
+        # conn = sqlite3.connect('') # Para execução de testes.
         conn = sqlite3.connect(
             '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
         cursor = conn.cursor()
@@ -52,7 +52,6 @@ def criar_db():
             );  
         ''')
 
-
         cursor.execute(''' CREATE TABLE IF NOT EXISTS Voo (
             id_voo INTEGER PRIMARY KEY,
             numero_voo TEXT NOT NULL UNIQUE,
@@ -60,7 +59,6 @@ def criar_db():
             id_destino INTEGER NOT NULL,
             data_ida TEXT NOT NULL,
             data_retorno TEXT DEFAULT NULL
-                
             );                    
         ''')
 
@@ -71,6 +69,7 @@ def criar_db():
             id_empresa INTEGER NOT NULL,
             id_gate INTEGER NOT NULL,
             id_servico INTEGER NOT NULL,
+            preco REAL NOT NULL DEFAULT 0.0,
             FOREIGN KEY (id_passageiro) REFERENCES Passageiro(id_passageiro),
             FOREIGN KEY (id_voo) REFERENCES Voo(id_voo),
             FOREIGN KEY (id_empresa) REFERENCES Empresa(id_empresa),
@@ -90,4 +89,3 @@ def criar_db():
     finally:
         if conn:
             conn.close()
-

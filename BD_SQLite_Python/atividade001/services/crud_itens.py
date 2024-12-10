@@ -4,9 +4,6 @@ import os
 from prettytable import PrettyTable
 
 
-# nome_colunas = []
-
-
 class Crud():
     def __init__(self, tabela):
         self.tabela = tabela
@@ -29,7 +26,7 @@ class Crud():
 
 class Exibir(Crud):
     def exibir(self):
-        
+
         conn = sqlite3.connect(
             '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
 
@@ -38,7 +35,7 @@ class Exibir(Crud):
         if self.tabela == 'Passagem':
             cursor.execute('SELECT id_passagem AS ID, passageiro.nome as NOME, passageiro.idade AS IDADE, empresa.nome AS EMPRESA, '
                            + 'gate.identificador AS GATE, servico.classe AS CLASSE, voo.numero_voo AS VOO, origem.nome AS ORIGEM, '
-                           + 'destino.nome AS DESTINO FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
+                           + 'destino.nome AS DESTINO, preco AS PREÇO FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
                            + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
                            + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
                            + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
@@ -142,8 +139,9 @@ class Adicionar(Crud):
                 id_empresa = input('Insira o ID da empresa aérea: ')
                 id_gate = input('Insira o ID do gate: ')
                 id_servico = input('Insira o ID do serviço: ')
+                preco = input('Insira o valor da sua passagem: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico) VALUES (?, ?, ?, ?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico,))
+                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico) VALUES (?, ?, ?, ?, ?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico, preco,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -178,9 +176,9 @@ class Adicionar(Crud):
                 id_destino = int(
                     input(f'Adicione o id do destino do {self.tabela}: '))
                 data_ida = input(
-                    f'Adicione a data de ida do {self.tabela}:(Ex: 01-01-2000) ')
+                    f'Adicione a data e a hora de ida do {self.tabela}(Ex: YYYY-MM-DD HH:MM): ')
                 data_retorno = input(
-                    f'Adicione a data de retorno do {self.tabela}:(Ex: 01-01-2000)(Este campo não é obrigátorio!) ')
+                    f'Adicione a data e hora do retorno do {self.tabela}(Ex: YYYY-MM-DD HH:MM)(Este campo não é obrigátorio!): ')
                 cursor.execute(
                     f'INSERT INTO {self.tabela}(numero_voo, id_origem, id_destino, data_ida, data_retorno) VALUES (?, ?, ?, ?, ?)', (numero_voo, id_origem, id_destino, data_ida, data_retorno,))
                 conn.commit()
@@ -267,7 +265,8 @@ class Alterar(Crud):
                     if resultados:
                         exibir_tabela = PrettyTable()
 
-                        colunas = [descricao[0] for descricao in cursor.description]
+                        colunas = [descricao[0]
+                                   for descricao in cursor.description]
 
                         exibir_tabela.field_names = colunas
 
@@ -277,14 +276,14 @@ class Alterar(Crud):
                         print(exibir_tabela)
                     else:
                         print('Não há registros para exibir!')
-                        
+
                 else:
                     exibir = Exibir(self.tabela)
                     exibir.exibir()
-                    
+
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
-                
+
                 campo = input('Qual campo você deseja alterar? ').lower()
 
                 if alterando_item:
