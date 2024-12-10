@@ -35,7 +35,7 @@ class Exibir(Crud):
         if self.tabela == 'Passagem':
             cursor.execute('SELECT id_passagem AS ID, passageiro.nome as NOME, passageiro.idade AS IDADE, empresa.nome AS EMPRESA, '
                            + 'gate.identificador AS GATE, servico.classe AS CLASSE, voo.numero_voo AS VOO, origem.nome AS ORIGEM, '
-                           + 'destino.nome AS DESTINO, preco AS PREÇO FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
+                           + 'destino.nome AS DESTINO, preco AS PREÇO_R$ FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
                            + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
                            + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
                            + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
@@ -141,7 +141,7 @@ class Adicionar(Crud):
                 id_servico = input('Insira o ID do serviço: ')
                 preco = input('Insira o valor da sua passagem: ')
                 cursor.execute(
-                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico) VALUES (?, ?, ?, ?, ?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico, preco,))
+                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico, preco) VALUES (?, ?, ?, ?, ?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico, preco,))
                 conn.commit()
 
                 print('O item foi inserido com sucesso!')
@@ -210,23 +210,23 @@ class Apagar(Crud):
             while self.tabela:
                 os.system('cls')
                 print(f'Apagando um item na tabela {self.tabela}:\n')
+                
                 exibir = Exibir(self.tabela)
                 exibir.exibir()
+                    
                 removido = input(
-                    f'Qual item você deseja apagar na tabela {self.tabela}: ').title()
+                    f'Qual id do item você deseja apagar na tabela {self.tabela}: ').title()
 
-                cursor.execute(
-                    f'select id_{self.tabela} from {self.tabela} WHERE nome LIKE ?', (f"%{(removido)}%",))
-                resultado = cursor.fetchone()
-
+                
                 if removido == '':
                     print('Insira um valor para executar a operação!')
                 else:
+                    cursor.execute(
+                        f'select id_{self.tabela} from {self.tabela} WHERE id_{self.tabela} = ?', removido)
+                    resultado = cursor.fetchone()
                     if resultado:
-                        id_aeroporto = resultado[0]
-                        # print(f'O ID do aeroporto é: {id_aeroporto}') para caso queria identificar o ID do elemento apagado
                         cursor.execute(
-                            f'DELETE FROM {self.tabela} WHERE id_{self.tabela} = ?', (id_aeroporto,))
+                            f'DELETE FROM {self.tabela} WHERE id_{self.tabela} = ?', (removido,))
                         conn.commit()
 
                         print('O item foi removido com sucesso!')
@@ -281,14 +281,16 @@ class Alterar(Crud):
                     exibir = Exibir(self.tabela)
                     exibir.exibir()
 
+                id_item = input(f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ')
+
+                campo = input('Qual campo você deseja alterar? ').lower()
+                
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
 
-                campo = input('Qual campo você deseja alterar? ').lower()
-
                 if alterando_item:
                     cursor.execute(
-                        f'select * from {self.tabela} WHERE {campo} LIKE ?', (f"%{(alterando_item)}%",))
+                        f'SELECT * FROM {self.tabela} WHERE {campo} AND id_{self.tabela} = {id_item}')
                     resultado = cursor.fetchone()
 
                     if resultado:
@@ -307,7 +309,7 @@ class Alterar(Crud):
                             novo_dado = input(
                                 'Insira o valor para o qual o item será alterado: ')
                             cursor.execute(
-                                f'UPDATE {self.tabela} SET {campo} = ? WHERE {campo} = ?', (novo_dado, alterando_item))
+                                f'UPDATE {self.tabela} SET {campo} = ? WHERE id_{self.tabela} = {id_item} AND {campo} = ?', (novo_dado, alterando_item))
                             print(
                                 f'O item {alterando_item} foi alterado para {novo_dado} com sucesso!')
 
