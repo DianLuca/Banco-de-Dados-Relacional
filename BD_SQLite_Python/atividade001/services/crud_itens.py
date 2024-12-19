@@ -27,37 +27,35 @@ class Crud():
 class Exibir(Crud):
     def exibir(self):
 
-        conn = sqlite3.connect(
-            '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
+        with sqlite3.connect(
+            '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
 
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        if self.tabela == 'Passagem':
-            cursor.execute('SELECT id_passagem AS ID, passageiro.nome as NOME, passageiro.idade AS IDADE, empresa.nome AS EMPRESA, '
-                           + 'gate.identificador AS GATE, servico.classe AS CLASSE, voo.numero_voo AS VOO, origem.nome AS ORIGEM, '
-                           + 'destino.nome AS DESTINO, preco AS PREÇO_R$ FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
-                           + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
-                           + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
-                           + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
-        else:
-            cursor.execute(f'SELECT * FROM {self.tabela}')
-        resultados = cursor.fetchall()
+            if self.tabela == 'Passagem':
+                cursor.execute('SELECT id_passagem AS ID, passageiro.nome as NOME, passageiro.idade AS IDADE, empresa.nome AS EMPRESA, '
+                            + 'gate.identificador AS GATE, servico.classe AS CLASSE, voo.numero_voo AS VOO, origem.nome AS ORIGEM, '
+                            + 'destino.nome AS DESTINO, preco AS PREÇO_R$ FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
+                            + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
+                            + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
+                            + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
+            else:
+                cursor.execute(f'SELECT * FROM {self.tabela}')
+            resultados = cursor.fetchall()
 
-        if resultados:
-            exibir_tabela = PrettyTable()
+            if resultados:
+                exibir_tabela = PrettyTable()
 
-            colunas = [descricao[0] for descricao in cursor.description]
+                colunas = [descricao[0] for descricao in cursor.description]
 
-            exibir_tabela.field_names = colunas
+                exibir_tabela.field_names = colunas
 
-            for row in resultados:
-                exibir_tabela.add_row(row)
+                for row in resultados:
+                    exibir_tabela.add_row(row)
 
-            print(exibir_tabela)
-        else:
-            print('Não há registros para exibir!')
-
-        conn.close()
+                print(exibir_tabela)
+            else:
+                print('Não há registros para exibir!')
 
 
 class Adicionar(Crud):
@@ -112,41 +110,40 @@ class Adicionar(Crud):
 class Apagar(Crud):
     def apagar(self):
         try:
-            conn = sqlite3.connect(
-                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
+            with  sqlite3.connect(
+                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
 
-            cursor = conn.cursor()
+                cursor = conn.cursor()
 
-            while self.tabela:
-                os.system('cls')
-                print(f'Apagando um item na tabela {self.tabela}:\n')
+                while self.tabela:
+                    os.system('cls')
+                    print(f'Apagando um item na tabela {self.tabela}:\n')
 
-                exibir = Exibir(self.tabela)
-                exibir.exibir()
+                    exibir = Exibir(self.tabela)
+                    exibir.exibir()
 
-                removido = input(
-                    f'Qual id do item você deseja apagar na tabela {self.tabela}: ').title()
+                    removido = input(
+                        f'Qual id do item você deseja apagar na tabela {self.tabela}: ').title()
 
-                if removido == '':
-                    print('Insira um valor para executar a operação!')
-                else:
-                    cursor.execute(
-                        f'select id_{self.tabela} from {self.tabela} WHERE id_{self.tabela} = ?', removido)
-                    resultado = cursor.fetchone()
-                    if resultado:
-                        cursor.execute(
-                            f'DELETE FROM {self.tabela} WHERE id_{self.tabela} = ?', (removido,))
-                        conn.commit()
-
-                        print('O item foi removido com sucesso!')
+                    if removido == '':
+                        print('Insira um valor para executar a operação!')
                     else:
-                        print('O item não está na lista ou não existe! ')
+                        cursor.execute(
+                            f'select id_{self.tabela} from {self.tabela} WHERE id_{self.tabela} = ?', removido)
+                        resultado = cursor.fetchone()
+                        if resultado:
+                            cursor.execute(
+                                f'DELETE FROM {self.tabela} WHERE id_{self.tabela} = ?', (removido,))
+                            conn.commit()
 
-                sair = input(
-                    'Deseja apagar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
+                            print('O item foi removido com sucesso!')
+                        else:
+                            print('O item não está na lista ou não existe! ')
+
+                    sair = input(
+                        'Deseja apagar mais algum item?(S - Sim) ').lower()
+                    if sair != 's':
+                        break
 
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
