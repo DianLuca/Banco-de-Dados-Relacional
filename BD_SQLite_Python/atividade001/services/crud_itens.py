@@ -92,9 +92,8 @@ class Adicionar(Crud):
                     # Une os campos da tabela
                     tabela_campos = ', '.join(campos)
                     # gera o placeholder de acordo com o número de campos
-                    placeholders = ', '.join(['?'] * len(campos))
-                    query = f'INSERT INTO {self.tabela} ({tabela_campos} VALUES {
-                        placeholders})'
+                    placeholders = ', '.join(["?"] * len(campos))
+                    query = f'INSERT INTO {self.tabela} ({tabela_campos}) VALUES ({placeholders})'
 
                     cursor.execute(query, itens)
                     conn.commit()
@@ -103,7 +102,6 @@ class Adicionar(Crud):
                     sair = input(
                         'Deseja adicionar mais algum item?(S - Sim) ').lower()
                     if sair != 's':
-                        conn.close()
                         break
 
         except Exception as e:
