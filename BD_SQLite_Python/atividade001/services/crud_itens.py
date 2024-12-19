@@ -99,7 +99,7 @@ class Adicionar(Crud):
                     print('O item foi inserido com sucesso!')
 
                     sair = input(
-                        'Deseja adicionar mais algum item?(S - Sim) ').lower()
+                        'Deseja adicionar mais algum item?(S - Sim) ').lower().strip()
                     if sair != 's':
                         break
 
@@ -123,13 +123,13 @@ class Apagar(Crud):
                     exibir.exibir()
 
                     removido = input(
-                        f'Qual id do item você deseja apagar na tabela {self.tabela}: ').title()
+                        f'Qual id do item você deseja apagar na tabela {self.tabela}: ').strip()
 
                     if removido == '':
                         print('Insira um valor para executar a operação!')
                     else:
                         cursor.execute(
-                            f'select id_{self.tabela} from {self.tabela} WHERE id_{self.tabela} = ?', removido)
+                            f'SELECT id_{self.tabela} FROM {self.tabela} WHERE id_{self.tabela} = ?', (removido,))
                         resultado = cursor.fetchone()
                         if resultado:
                             cursor.execute(
@@ -188,9 +188,9 @@ class Alterar(Crud):
                         exibir.exibir()
 
                     id_item = input(
-                        f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ')
+                        f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ').strip()
 
-                    campo = input('Qual campo você deseja alterar? ').lower()
+                    campo = input('Qual campo você deseja alterar? ').lower().strip()
 
                     if id_item:
                         cursor.execute(
@@ -206,7 +206,6 @@ class Alterar(Crud):
                                 print(f"{k}: {v}", end=" | ")
                             print()
 
-                            # campo = input('Qual campo você deseja alterar? ')
                             if campo == (f'id_{self.tabela}').lower():
                                 print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
                             else:
@@ -225,7 +224,7 @@ class Alterar(Crud):
                     else:
                         print('Insira um valor para executar a operação!')
                     sair = input(
-                        'Deseja alterar mais algum item?(S - Sim) ').lower()
+                        'Deseja alterar mais algum item?(S - Sim) ').lower().strip()
                     if sair != 's':
                         break
 
