@@ -63,140 +63,51 @@ class Exibir(Crud):
 class Adicionar(Crud):
     def adicionar(self):
         try:
-            conn = sqlite3.connect(
-                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
+            # Abre e fecha a conexão com o banco quando a operação for realizada
+            with sqlite3.connect(
+                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
 
-            cursor = conn.cursor()
+                cursor = conn.cursor()
 
-            while self.tabela == 'Aeroporto':
-                print(f'Inserindo um novo item na tabela {self.tabela}:\n')
-                nome = input(f'Adicione o nome do {self.tabela}: ').title()
-                pais = input(f'Insira o país do deste {self.tabela}: ').title()
-                cursor.execute(
-                    f'INSERT INTO {self.tabela}(nome, pais) VALUES (?, ?)', (nome, pais,))
-                conn.commit()
+                cursor.execute(f'PRAGMA table_info({self.tabela})')
+                colunas = cursor.fetchall()
+                # Campos retorna a primeira coluna e ignora o id(auto_increment) das tabelas
 
-                print('O item foi inserido com sucesso!')
+                campos = [coluna[1] for coluna in colunas if coluna[1]
+                          != f"id_{self.tabela.lower()}"]
+                if not campos:
+                    print(f'A tabela {
+                          self.tabela} não possui campos para inserção.')
+                    return
 
-                sair = input(
-                    'Deseja adicionar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
+                while True:
+                    itens = []
 
-            while self.tabela == 'Empresa':
-                print(f'Inserindo um novo {self.tabela}:\n')
-                nome = input(
-                    f'Adicione o nome da {self.tabela} aérea: ').title()
-                cursor.execute(
-                    f'INSERT INTO {self.tabela}(nome) VALUES (?)', (nome,))
-                conn.commit()
+                    print(f'Inserindo item na tabela {self.tabela}:')
+                    for campo in campos:
+                        item = input(f'Insira um valor para {campo}: ').strip()
+                        itens.append(item)
 
-                print('O item foi inserido com sucesso!')
+                    # Criando a inserção de forma dinâmica
+                    # Une os campos da tabela
+                    tabela_campos = ', '.join(campos)
+                    # gera o placeholder de acordo com o número de campos
+                    placeholders = ', '.join(['?'] * len(campos))
+                    query = f'INSERT INTO {self.tabela} ({tabela_campos} VALUES {
+                        placeholders})'
 
-                sair = input(
-                    'Deseja adicionar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
+                    cursor.execute(query, itens)
+                    conn.commit()
+                    print('O item foi inserido com sucesso!')
 
-            while self.tabela == 'Gate':
-                print(f'Inserindo um novo {self.tabela}:\n')
-                identificador = input(
-                    f'Adicione o nome do {self.tabela}: ').title()
-                cursor.execute(
-                    f'INSERT INTO {self.tabela}(identificador) VALUES (?)', (identificador,))
-                conn.commit()
+                    sair = input(
+                        'Deseja adicionar mais algum item?(S - Sim) ').lower()
+                    if sair != 's':
+                        conn.close()
+                        break
 
-                print('O item foi inserido com sucesso!')
-
-                sair = input(
-                    'Deseja adicionar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
-
-            while self.tabela == 'Passageiro':
-                print(f'Inserindo um novo {self.tabela}:\n')
-                nome = input(f'Adicione o nome do {self.tabela}: ').title()
-                idade = int(input(f'Adicione a idade do {self.tabela}: '))
-                cursor.execute(
-                    f'INSERT INTO {self.tabela}(nome, idade) VALUES (?, ?)', (nome, idade,))
-                conn.commit()
-
-                print('O item foi inserido com sucesso!')
-
-                sair = input(
-                    'Deseja adicionar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
-
-            while self.tabela == 'Passagem':
-                print(f'Inserindo um novo {self.tabela}:\n')
-                id_passageiro = input('Insira o ID do passageiro: ')
-                id_voo = input('Insira o ID do voo: ')
-                id_empresa = input('Insira o ID da empresa aérea: ')
-                id_gate = input('Insira o ID do gate: ')
-                id_servico = input('Insira o ID do serviço: ')
-                preco = input('Insira o valor da sua passagem: ')
-                cursor.execute(
-                    f'INSERT INTO {self.tabela}(id_passageiro, id_voo, id_empresa, id_gate, id_servico, preco) VALUES (?, ?, ?, ?, ?, ?)', (id_passageiro, id_voo, id_empresa, id_gate, id_servico, preco,))
-                conn.commit()
-
-                print('O item foi inserido com sucesso!')
-
-                sair = input(
-                    'Deseja adicionar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
-
-            while self.tabela == 'Servico':
-                print(f'Inserindo um novo {self.tabela}:\n')
-                classe = input(f'Adicione o nome do {self.tabela}: ').title()
-                cursor.execute(
-                    f'INSERT INTO {self.tabela}(classe) VALUES (?)', (classe,))
-                conn.commit()
-
-                print('O item foi inserido com sucesso!')
-
-                sair = input(
-                    'Deseja adicionar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
-
-            while self.tabela == 'Voo':
-                print(f'Inserindo um novo {self.tabela}:\n')
-                numero_voo = input(
-                    f'Adicione o número do {self.tabela}: ').capitalize()
-                id_origem = int(
-                    input(f'Adicione o id da origem do {self.tabela}: '))
-                id_destino = int(
-                    input(f'Adicione o id do destino do {self.tabela}: '))
-                data_ida = input(
-                    f'Adicione a data e a hora de ida do {self.tabela}(Ex: YYYY-MM-DD HH:MM): ')
-                data_retorno = input(
-                    f'Adicione a data e hora do retorno do {self.tabela}(Ex: YYYY-MM-DD HH:MM)(Este campo não é obrigátorio!): ')
-                cursor.execute(
-                    f'INSERT INTO {self.tabela}(numero_voo, id_origem, id_destino, data_ida, data_retorno) VALUES (?, ?, ?, ?, ?)', (numero_voo, id_origem, id_destino, data_ida, data_retorno,))
-                conn.commit()
-
-                print('O item foi inserido com sucesso!')
-
-                sair = input(
-                    'Deseja adicionar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
-
-        except sqlite3.Error as e:
-            print(f'Aconteceu um erro ao inserir o dados: \n{e}')
-            conn.close()
-        except:
-            print('Houve um erro ao inserir um dado. Tente novamente!')
-            conn.close()
+        except Exception as e:
+            print(f'ERRO! {e}')
 
 
 class Apagar(Crud):
@@ -210,14 +121,13 @@ class Apagar(Crud):
             while self.tabela:
                 os.system('cls')
                 print(f'Apagando um item na tabela {self.tabela}:\n')
-                
+
                 exibir = Exibir(self.tabela)
                 exibir.exibir()
-                    
+
                 removido = input(
                     f'Qual id do item você deseja apagar na tabela {self.tabela}: ').title()
 
-                
                 if removido == '':
                     print('Insira um valor para executar a operação!')
                 else:
@@ -281,10 +191,11 @@ class Alterar(Crud):
                     exibir = Exibir(self.tabela)
                     exibir.exibir()
 
-                id_item = input(f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ')
+                id_item = input(
+                    f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ')
 
                 campo = input('Qual campo você deseja alterar? ').lower()
-                
+
                 alterando_item = input(
                     f'Qual item você deseja atualizar na tabela {self.tabela}: ')
 
