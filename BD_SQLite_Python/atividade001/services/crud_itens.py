@@ -2,7 +2,7 @@
 import sqlite3
 import os
 from prettytable import PrettyTable
-from models.utils import validar
+import models.utils as utils
 
 
 class Crud():
@@ -85,7 +85,7 @@ class Adicionar(Crud):
                     print(f'Inserindo item na tabela {self.tabela}:')
                     for campo in campos:
                         item = input(f'Insira um valor para {campo}: ').strip()
-                        validar(item, self.tabela)
+                        utils.validar(item, self.tabela)
                         itens.append(item)
 
                     # Criando a inserção de forma dinâmica
@@ -193,8 +193,8 @@ class Alterar(Crud):
                         f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ').strip()
 
                     campo = input('Qual campo você deseja alterar? ').lower().strip()
-
-                    if id_item:
+                    response = utils.validar_campo(campo, self.tabela)
+                    if id_item and response == True:
                         cursor.execute(
                             f'SELECT * FROM {self.tabela} WHERE id_{self.tabela.lower()} = ?', (id_item,))
                         resultado = cursor.fetchone()
@@ -213,6 +213,7 @@ class Alterar(Crud):
                             else:
                                 novo_dado = input(
                                     f'Insira o valor para o qual o {campo} será alterado: ')
+                                utils.validar(novo_dado, self.tabela)
                                 cursor.execute(
                                     f'UPDATE {self.tabela} SET {campo} = ? WHERE id_{self.tabela} = ?', (novo_dado, id_item))
                                 print(
@@ -224,7 +225,7 @@ class Alterar(Crud):
                             print('O item selecionado não existe!')
 
                     else:
-                        print('Insira um valor para executar a operação!')
+                        print('Insira um valor válido para executar a operação!')
                     sair = input(
                         'Deseja alterar mais algum item?(S - Sim) ').lower().strip()
                     if sair != 's':
