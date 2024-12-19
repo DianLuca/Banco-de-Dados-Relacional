@@ -2,6 +2,7 @@
 import sqlite3
 import os
 from prettytable import PrettyTable
+from models.utils import validar
 
 
 class Crud():
@@ -84,6 +85,7 @@ class Adicionar(Crud):
                     print(f'Inserindo item na tabela {self.tabela}:')
                     for campo in campos:
                         item = input(f'Insira um valor para {campo}: ').strip()
+                        validar(item, self.tabela)
                         itens.append(item)
 
                     # Criando a inserção de forma dinâmica
