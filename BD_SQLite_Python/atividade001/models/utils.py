@@ -26,14 +26,13 @@ def validar(item, tabela):
             for campo, tipo in campos:
                 if tipo.upper() == 'INTEGER':
                     if item.isdigit():
-                        print('É um número inteiro!')
+                        # Se o item comprir as necessidades para a verificação, do contrário vai para a próxima checagem.
                         break
                     else:
                         print(f'O campo {campo} requer um valor númerico inteiro!')
                 
                 elif tipo.upper() == 'REAL':
                     try:
-                        print('É um valor com dígitos')
                         break
                     except ValueError:
                         print(f'O campo {campo} requer um valor númerico decimal!')
