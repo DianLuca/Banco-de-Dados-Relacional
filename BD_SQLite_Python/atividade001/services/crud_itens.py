@@ -93,7 +93,8 @@ class Adicionar(Crud):
                     tabela_campos = ', '.join(campos)
                     # gera o placeholder de acordo com o número de campos
                     placeholders = ', '.join(["?"] * len(campos))
-                    query = f'INSERT INTO {self.tabela} ({tabela_campos}) VALUES ({placeholders})'
+                    query = f'INSERT INTO {self.tabela} ({tabela_campos}) VALUES ({
+                        placeholders})'
 
                     cursor.execute(query, itens)
                     conn.commit()
@@ -158,86 +159,80 @@ class Apagar(Crud):
 class Alterar(Crud):
     def alterar(self):
         try:
-            conn = sqlite3.connect(
-                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db')
+            with sqlite3.connect(
+                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
 
-            cursor = conn.cursor()
+                cursor = conn.cursor()
 
-            while self.tabela:
-                os.system('cls')
-                print(f'Alterando um item na tabela {self.tabela}:\n')
-                if self.tabela == 'Passagem':
-                    cursor.execute(f'SELECT * FROM {self.tabela}')
-                    resultados = cursor.fetchall()
+                while self.tabela:
+                    os.system('cls')
+                    print(f'Alterando um item na tabela {self.tabela}:\n')
+                    if self.tabela == 'Passagem':
+                        cursor.execute(f'SELECT * FROM {self.tabela}')
+                        resultados = cursor.fetchall()
 
-                    if resultados:
-                        exibir_tabela = PrettyTable()
+                        if resultados:
+                            exibir_tabela = PrettyTable()
 
-                        colunas = [descricao[0]
-                                   for descricao in cursor.description]
+                            colunas = [descricao[0]
+                                       for descricao in cursor.description]
 
-                        exibir_tabela.field_names = colunas
+                            exibir_tabela.field_names = colunas
 
-                        for row in resultados:
-                            exibir_tabela.add_row(row)
+                            for row in resultados:
+                                exibir_tabela.add_row(row)
 
-                        print(exibir_tabela)
-                    else:
-                        print('Não há registros para exibir!')
-
-                else:
-                    exibir = Exibir(self.tabela)
-                    exibir.exibir()
-
-                id_item = input(
-                    f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ')
-
-                campo = input('Qual campo você deseja alterar? ').lower()
-
-                alterando_item = input(
-                    f'Qual item você deseja atualizar na tabela {self.tabela}: ')
-
-                if alterando_item:
-                    cursor.execute(
-                        f'SELECT * FROM {self.tabela} WHERE {campo} AND id_{self.tabela} = {id_item}')
-                    resultado = cursor.fetchone()
-
-                    if resultado:
-                        colunas = [descricao[0]
-                                   for descricao in cursor.description]
-
-                        # Imprime o par nome-coluna e valor utilizando zip
-                        for k, v in zip(colunas, resultado):
-                            print(f"{k}: {v}", end=" | ")
-                        print()
-
-                        # campo = input('Qual campo você deseja alterar? ')
-                        if campo == (f'id_{self.tabela}').lower():
-                            print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
+                            print(exibir_tabela)
                         else:
-                            novo_dado = input(
-                                'Insira o valor para o qual o item será alterado: ')
-                            cursor.execute(
-                                f'UPDATE {self.tabela} SET {campo} = ? WHERE id_{self.tabela} = {id_item} AND {campo} = ?', (novo_dado, alterando_item))
-                            print(
-                                f'O item {alterando_item} foi alterado para {novo_dado} com sucesso!')
-
-                            conn.commit()
+                            print('Não há registros para exibir!')
 
                     else:
-                        print('O item selecionado não existe!')
+                        exibir = Exibir(self.tabela)
+                        exibir.exibir()
 
-                else:
-                    print('Insira um valor para executar a operação!')
-                sair = input(
-                    'Deseja alterar mais algum item?(S - Sim) ').lower()
-                if sair != 's':
-                    conn.close()
-                    break
+                    id_item = input(
+                        f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ')
+
+                    campo = input('Qual campo você deseja alterar? ').lower()
+
+                    if id_item:
+                        cursor.execute(
+                            f'SELECT * FROM {self.tabela} WHERE id_{self.tabela.lower()} = ?', (id_item,))
+                        resultado = cursor.fetchone()
+
+                        if resultado:
+                            colunas = [descricao[0]
+                                       for descricao in cursor.description]
+
+                            # Imprime o par nome-coluna e valor utilizando zip
+                            for k, v in zip(colunas, resultado):
+                                print(f"{k}: {v}", end=" | ")
+                            print()
+
+                            # campo = input('Qual campo você deseja alterar? ')
+                            if campo == (f'id_{self.tabela}').lower():
+                                print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
+                            else:
+                                novo_dado = input(
+                                    f'Insira o valor para o qual o {campo} será alterado: ')
+                                cursor.execute(
+                                    f'UPDATE {self.tabela} SET {campo} = ? WHERE id_{self.tabela} = ?', (novo_dado, id_item))
+                                print(
+                                    f'O item de ID: {id_item} foi alterado para {novo_dado} com sucesso!')
+
+                                conn.commit()
+
+                        else:
+                            print('O item selecionado não existe!')
+
+                    else:
+                        print('Insira um valor para executar a operação!')
+                    sair = input(
+                        'Deseja alterar mais algum item?(S - Sim) ').lower()
+                    if sair != 's':
+                        break
 
         except sqlite3.Error as e:
             print(f'Aconteceu um erro ao inserir o dados: \n{e}')
-            conn.close()
         except:
             print('Houve um erro ao inserir um dado. Tente novamente!')
-            conn.close()
