@@ -96,8 +96,8 @@ class Adicionar(Crud):
                             tabela_campos = ', '.join(campos)
                             # gera o placeholder de acordo com o número de campos
                             placeholders = ', '.join(["?"] * len(campos))
-                            query = f'INSERT INTO {self.tabela} 
-                            ({tabela_campos}) VALUES ({placeholders})'
+                            query = f'INSERT INTO {self.tabela} '
+                            +f'({tabela_campos}) VALUES ({placeholders})'
 
                             cursor.execute(query, itens)
                             conn.commit()

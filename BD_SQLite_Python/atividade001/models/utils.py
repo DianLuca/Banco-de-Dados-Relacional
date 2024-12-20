@@ -77,6 +77,8 @@ def validar_campo(campo, tabela):
             return False
 
 
-# while True:
-#     entrada = input('Insira valores aleatórios: ')
-#     validar(entrada,'Gate')
+def validar_menu(menu):
+    try:
+        print(menu)
+    except AttributeError as e:
+        print(e)

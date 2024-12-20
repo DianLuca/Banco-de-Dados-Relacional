@@ -13,8 +13,8 @@
 # cadastradas, atualizar informações(por exemplo, ajustar horários ou destinos)
 # e, quando necessário, excluir registros de passagens.
 import os
-import time
 from database.manipulacao_db import criar_db
+from models.utils import validar_menu
 from services.crud_itens import Exibir, Adicionar, Alterar, Apagar
 
 
@@ -28,10 +28,9 @@ sub_menu = {
     '7': 'Voo'
 }
 
-criar_db()
-print(f'Programa iniciando aguarde! ')
-time.sleep(2)
 
+os.system('cls')
+criar_db()
 
 while True:
     os.system('cls')
@@ -69,6 +68,7 @@ while True:
             os.system('cls')
             menu_selecionado = sub_menu.get(menu_adicionar)
             adicionando = Adicionar(menu_selecionado.title())
+            validar_menu(adicionando)
             adicionando.adicionar()
 
             input('\nVoltar ao menu principal: ')

@@ -1,5 +1,6 @@
 # Para criação do banco de dados
 import sqlite3
+import time
 
 
 def criar_db():
@@ -84,3 +85,6 @@ def criar_db():
         print(f"Erro operacional: {e}")
     except sqlite3.Error as e:
         print(f"Erro no SQLite: {e}")
+        
+    print(f'Programa iniciando aguarde! ')
+    time.sleep(2)
