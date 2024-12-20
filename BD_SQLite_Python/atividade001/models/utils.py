@@ -79,6 +79,7 @@ def validar_campo(campo, tabela):
 
 def validar_menu(menu):
     try:
-        print(menu)
-    except AttributeError as e:
-        print(e)
+        if menu and 1 <= int(menu) <= 7: 
+            return True
+    except ValueError:
+        pass

@@ -63,13 +63,17 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_adicionar = input(
+            menu_interno = input(
                 '\nEm qual tabela você deseja adicionar um elemento: ').strip().lower()
             os.system('cls')
-            menu_selecionado = sub_menu.get(menu_adicionar)
-            adicionando = Adicionar(menu_selecionado.title())
-            validar_menu(adicionando)
-            adicionando.adicionar()
+            resposta = validar_menu(menu_interno)
+            if resposta == True:
+                menu_selecionado = sub_menu.get(menu_interno)
+                adicionando = Adicionar(menu_selecionado.title())
+                adicionando.adicionar()
+            else:
+                print(
+                    f'A opção "{menu_interno}" selecionada não existe, tente novamente.')
 
             input('\nVoltar ao menu principal: ')
             break
@@ -80,11 +84,16 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_alterar = input(
+            menu_interno = input(
                 '\nEm qual tabela você deseja atualizar um elemento: ').strip().lower()
-            menu_selecionado = sub_menu.get(menu_alterar)
-            alterando = Alterar(menu_selecionado.title())
-            alterando.alterar()
+            resposta = validar_menu(menu_interno)
+            if resposta == True:
+                menu_selecionado = sub_menu.get(menu_interno)
+                alterando = Alterar(menu_selecionado.title())
+                alterando.alterar()
+            else:
+                print(
+                    f'A opção "{menu_interno}" selecionado não existe, tente novamente.')
 
             input('Voltar ao menu principal: ')
             break
@@ -95,12 +104,17 @@ while True:
             os.system('cls')
             for k, v in sub_menu.items():
                 print(f'{k} - {v}', end=' | ')
-            menu_apagar = input(
+            menu_interno = input(
                 '\nEm qual tabela você deseja apagar um elemento: ').strip().lower()
             os.system('cls')
-            menu_selecionado = sub_menu.get(menu_apagar)
-            apagando = Apagar(menu_selecionado)
-            apagando.apagar()
+            resposta = validar_menu(menu_interno)
+            if resposta == True:
+                menu_selecionado = sub_menu.get(menu_interno)
+                apagando = Apagar(menu_selecionado)
+                apagando.apagar()
+            else:
+                print(
+                    f'A opção "{menu_interno}" selecionado não existe, tente novamente.')
 
             input('Voltar ao menu principal: ')
             break
