@@ -13,12 +13,16 @@ def validar(item, tabela):
             colunas = cursor.fetchall()
 
             campos = []
+            campos_nulos = set()
             for coluna in colunas:
                 if coluna[1] != f'id_{tabela.lower()}':
                     campos.append((coluna[1], coluna[2]))
+                    if coluna[3] == 1:
+                        campos_nulos.add(coluna[1])
 
             # List Comprehesion
             # campos = [(coluna[1], coluna[2]) for coluna in colunas if coluna[1] != f'id_{tabela}']
+            # campos_nulos = {coluna[1] for coluna in colunas if coluna[3] == 1 and coluna[1] != "id"}
 
             if not campos:
                 print(f'A tabela {tabela} não possuí nenhum campo.')
@@ -46,8 +50,14 @@ def validar(item, tabela):
                         print('O campo não pode estar vazio!')
                         break
 
-    except:
-        print('Ocorreu um erro na inserção dos itens')
+                if campo in campos_nulos and not item:
+                    print(f'Erro: o campo "{campo}" é obrigatório.')
+                    return False
+
+    except sqlite3.IntegrityError as e:
+        print(f'Erro de integridade: {e}')
+    except sqlite3.Error as e:
+        print(f'Erro ao inserir os dados: {e}')
 
 
 def validar_campo(campo, tabela):

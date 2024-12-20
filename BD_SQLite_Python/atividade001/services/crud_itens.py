@@ -29,17 +29,18 @@ class Exibir(Crud):
     def exibir(self):
 
         with sqlite3.connect(
-            '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
+                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
+                +'\\atividade001\\database\\airlines.db') as conn:
 
             cursor = conn.cursor()
 
             if self.tabela == 'Passagem':
                 cursor.execute('SELECT id_passagem AS ID, passageiro.nome as NOME, passageiro.idade AS IDADE, empresa.nome AS EMPRESA, '
-                            + 'gate.identificador AS GATE, servico.classe AS CLASSE, voo.numero_voo AS VOO, origem.nome AS ORIGEM, '
-                            + 'destino.nome AS DESTINO, preco AS PREÇO_R$ FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
-                            + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
-                            + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
-                            + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
+                               + 'gate.identificador AS GATE, servico.classe AS CLASSE, voo.numero_voo AS VOO, origem.nome AS ORIGEM, '
+                               + 'destino.nome AS DESTINO, preco AS PREÇO_R$ FROM passagem JOIN passageiro JOIN empresa JOIN gate JOIN servico JOIN voo JOIN aeroporto '
+                               + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
+                               + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
+                               + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
             else:
                 cursor.execute(f'SELECT * FROM {self.tabela}')
             resultados = cursor.fetchall()
@@ -64,7 +65,8 @@ class Adicionar(Crud):
         try:
             # Abre e fecha a conexão com o banco quando a operação for realizada
             with sqlite3.connect(
-                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
+                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
+                    + '\\atividade001\\database\\airlines.db') as conn:
 
                 cursor = conn.cursor()
 
@@ -85,25 +87,27 @@ class Adicionar(Crud):
                     print(f'Inserindo item na tabela {self.tabela}:')
                     for campo in campos:
                         item = input(f'Insira um valor para {campo}: ').strip()
-                        utils.validar(item, self.tabela)
+                        resposta = utils.validar(item, self.tabela)
                         itens.append(item)
+                        if resposta != False:
 
-                    # Criando a inserção de forma dinâmica
-                    # Une os campos da tabela
-                    tabela_campos = ', '.join(campos)
-                    # gera o placeholder de acordo com o número de campos
-                    placeholders = ', '.join(["?"] * len(campos))
-                    query = f'INSERT INTO {self.tabela} ({tabela_campos}) VALUES ({
-                        placeholders})'
+                            # Criando a inserção de forma dinâmica
+                            # Une os campos da tabela
+                            tabela_campos = ', '.join(campos)
+                            # gera o placeholder de acordo com o número de campos
+                            placeholders = ', '.join(["?"] * len(campos))
+                            query = f'INSERT INTO {self.tabela} 
+                            ({tabela_campos}) VALUES ({placeholders})'
 
-                    cursor.execute(query, itens)
-                    conn.commit()
-                    print('O item foi inserido com sucesso!')
+                            cursor.execute(query, itens)
+                            conn.commit()
+                            print('O item foi inserido com sucesso!')
 
-                    sair = input(
-                        'Deseja adicionar mais algum item?(S - Sim) ').lower().strip()
-                    if sair != 's':
-                        break
+                            sair = input(
+                                'Deseja adicionar mais algum '
+                                +'item?(S - Sim) ').lower().strip()
+                            if sair != 's':
+                                break
 
         except Exception as e:
             print(f'ERRO! {e}')
@@ -112,8 +116,9 @@ class Adicionar(Crud):
 class Apagar(Crud):
     def apagar(self):
         try:
-            with  sqlite3.connect(
-                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
+            with sqlite3.connect(
+                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
+                    +'\\atividade001\\database\\airlines.db') as conn:
 
                 cursor = conn.cursor()
 
@@ -125,17 +130,20 @@ class Apagar(Crud):
                     exibir.exibir()
 
                     removido = input(
-                        f'Qual id do item você deseja apagar na tabela {self.tabela}: ').strip()
+                        f'Qual id do item você deseja apagar na tabela '
+                        +f'{self.tabela}: ').strip()
 
                     if removido == '':
                         print('Insira um valor para executar a operação!')
                     else:
                         cursor.execute(
-                            f'SELECT id_{self.tabela} FROM {self.tabela} WHERE id_{self.tabela} = ?', (removido,))
+                            f'SELECT id_{self.tabela} FROM {self.tabela} '
+                            +f'WHERE id_{self.tabela} = ?', (removido,))
                         resultado = cursor.fetchone()
                         if resultado:
                             cursor.execute(
-                                f'DELETE FROM {self.tabela} WHERE id_{self.tabela} = ?', (removido,))
+                                f'DELETE FROM {self.tabela} WHERE '
+                                +f'id_{self.tabela} = ?', (removido,))
                             conn.commit()
 
                             print('O item foi removido com sucesso!')
@@ -159,7 +167,8 @@ class Alterar(Crud):
     def alterar(self):
         try:
             with sqlite3.connect(
-                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python\\atividade001\\database\\airlines.db') as conn:
+                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
+                    +'\\atividade001\\database\\airlines.db') as conn:
 
                 cursor = conn.cursor()
 
@@ -190,13 +199,16 @@ class Alterar(Crud):
                         exibir.exibir()
 
                     id_item = input(
-                        f'Qual o id_{(self.tabela.lower())} do item que você deseja alterar: ').strip()
+                        f'Qual o id_{(self.tabela.lower())} do item que você '
+                        +'deseja alterar: ').strip()
 
-                    campo = input('Qual campo você deseja alterar? ').lower().strip()
-                    response = utils.validar_campo(campo, self.tabela)
-                    if id_item and response == True:
+                    campo = input(
+                        'Qual campo você deseja alterar? ').lower().strip()
+                    resposta = utils.validar_campo(campo, self.tabela)
+                    if id_item and resposta == True:
                         cursor.execute(
-                            f'SELECT * FROM {self.tabela} WHERE id_{self.tabela.lower()} = ?', (id_item,))
+                            f'SELECT * FROM {self.tabela} '
+                            +'WHERE id_{self.tabela.lower()} = ?', (id_item,))
                         resultado = cursor.fetchone()
 
                         if resultado:
@@ -212,20 +224,27 @@ class Alterar(Crud):
                                 print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
                             else:
                                 novo_dado = input(
-                                    f'Insira o valor para o qual o {campo} será alterado: ')
-                                utils.validar(novo_dado, self.tabela)
-                                cursor.execute(
-                                    f'UPDATE {self.tabela} SET {campo} = ? WHERE id_{self.tabela} = ?', (novo_dado, id_item))
-                                print(
-                                    f'O item de ID: {id_item} foi alterado para {novo_dado} com sucesso!')
+                                    f'Insira o valor para o qual o {campo} '
+                                    +'será alterado: ')
+                                valida_novo_dado = utils.validar(
+                                    novo_dado, self.tabela)
+                                if valida_novo_dado != False:
+                                    cursor.execute(
+                                        f'UPDATE {self.tabela} SET {campo} = ?'
+                                        +f'WHERE id_{self.tabela} = ?', 
+                                        (novo_dado, id_item))
+                                    print(
+                                        f'O item de ID: {id_item} foi alterado'
+                                        +f' para {novo_dado} com sucesso!')
 
-                                conn.commit()
+                                    conn.commit()
 
                         else:
                             print('O item selecionado não existe!')
 
                     else:
-                        print('Insira um valor válido para executar a operação!')
+                        print('Insira um valor válido para executar a '
+                              'operação!')
                     sair = input(
                         'Deseja alterar mais algum item?(S - Sim) ').lower().strip()
                     if sair != 's':
