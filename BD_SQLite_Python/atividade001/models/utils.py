@@ -27,32 +27,41 @@ def validar(item, tabela):
             if not campos:
                 print(f'A tabela {tabela} não possuí nenhum campo.')
 
+            elementos = []
+            elementos.append(item)
+            
             for campo, tipo in campos:
-                if tipo.upper() == 'INTEGER':
-                    if item.isdigit():
-                        # Se o item comprir as necessidades para a verificação, do contrário vai para a próxima checagem.
-                        break
+                # Tem que haver uma verificação para o segundo elemento que irá ser inserido e assim sucessivamente
+                for i, elemento in elementos:
+                
+                    if campo in campos_nulos and not elemento:
+                        print(f'Erro: o campo "{campo}" é obrigatório.')
+                        return False
+                    
+                    if tipo.upper() == 'INTEGER':
+                        if elemento.isdigit():
+                            # Se o item comprir as necessidades para a verificação, do contrário vai para a próxima checagem.
+                            break
+                        else:
+                            print(
+                                f'O campo {campo} requer um valor númerico inteiro!')
+                            return False
+
+                    elif tipo.upper() == 'REAL':
+                        try:
+                            break
+                        except ValueError:
+                            print(
+                                f'O campo {campo} requer um valor númerico decimal!')
+                            return False
+
                     else:
-                        print(
-                            f'O campo {campo} requer um valor númerico inteiro!')
+                        if elemento:
+                            break
+                        else:
+                            print('O campo não pode estar vazio!')
+                            return False
 
-                elif tipo.upper() == 'REAL':
-                    try:
-                        break
-                    except ValueError:
-                        print(
-                            f'O campo {campo} requer um valor númerico decimal!')
-
-                else:
-                    if item:
-                        break
-                    else:
-                        print('O campo não pode estar vazio!')
-                        break
-
-                if campo in campos_nulos and not item:
-                    print(f'Erro: o campo "{campo}" é obrigatório.')
-                    return False
 
     except sqlite3.IntegrityError as e:
         print(f'Erro de integridade: {e}')

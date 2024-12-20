@@ -77,8 +77,8 @@ class Adicionar(Crud):
                 campos = [coluna[1] for coluna in colunas if coluna[1]
                           != f"id_{self.tabela.lower()}"]
                 if not campos:
-                    print(f'A tabela {
-                          self.tabela} não possui campos para inserção.')
+                    print(f'A tabela {self.tabela} '
+                          +'não possui campos para inserção.')
                     return
 
                 while True:
@@ -87,27 +87,28 @@ class Adicionar(Crud):
                     print(f'Inserindo item na tabela {self.tabela}:')
                     for campo in campos:
                         item = input(f'Insira um valor para {campo}: ').strip()
-                        resposta = utils.validar(item, self.tabela)
                         itens.append(item)
-                        if resposta != False:
+                        
+                    resposta = utils.validar(itens, self.tabela)
+                    if resposta != False:
 
-                            # Criando a inserção de forma dinâmica
-                            # Une os campos da tabela
-                            tabela_campos = ', '.join(campos)
-                            # gera o placeholder de acordo com o número de campos
-                            placeholders = ', '.join(["?"] * len(campos))
-                            query = f'INSERT INTO {self.tabela} '
-                            +f'({tabela_campos}) VALUES ({placeholders})'
+                        # Criando a inserção de forma dinâmica
+                        # Une os campos da tabela
+                        tabela_campos = ', '.join(campos)
+                        # gera o placeholder de acordo com o número de campos
+                        placeholders = ', '.join(["?"] * len(campos))
+                        query = (f'INSERT INTO {self.tabela} '
+                        f'({tabela_campos}) VALUES ({placeholders})')
 
-                            cursor.execute(query, itens)
-                            conn.commit()
-                            print('O item foi inserido com sucesso!')
+                        cursor.execute(query, itens)
+                        conn.commit()
+                        print('O item foi inserido com sucesso!')
 
-                            sair = input(
-                                'Deseja adicionar mais algum '
-                                +'item?(S - Sim) ').lower().strip()
-                            if sair != 's':
-                                break
+                    sair = input(
+                        'Deseja adicionar mais algum '
+                        +'item?(S - Sim) ').lower().strip()
+                    if sair != 's':
+                        break
 
         except Exception as e:
             print(f'ERRO! {e}')
@@ -138,12 +139,12 @@ class Apagar(Crud):
                     else:
                         cursor.execute(
                             f'SELECT id_{self.tabela} FROM {self.tabela} '
-                            +f'WHERE id_{self.tabela} = ?', (removido,))
+                            f'WHERE id_{self.tabela} = ?', (removido,))
                         resultado = cursor.fetchone()
                         if resultado:
                             cursor.execute(
                                 f'DELETE FROM {self.tabela} WHERE '
-                                +f'id_{self.tabela} = ?', (removido,))
+                                f'id_{self.tabela} = ?', (removido,))
                             conn.commit()
 
                             print('O item foi removido com sucesso!')
@@ -208,7 +209,7 @@ class Alterar(Crud):
                     if id_item and resposta == True:
                         cursor.execute(
                             f'SELECT * FROM {self.tabela} '
-                            +'WHERE id_{self.tabela.lower()} = ?', (id_item,))
+                            f'WHERE id_{self.tabela.lower()} = ?', (id_item,))
                         resultado = cursor.fetchone()
 
                         if resultado:
@@ -231,11 +232,11 @@ class Alterar(Crud):
                                 if valida_novo_dado != False:
                                     cursor.execute(
                                         f'UPDATE {self.tabela} SET {campo} = ?'
-                                        +f'WHERE id_{self.tabela} = ?', 
+                                        f'WHERE id_{self.tabela} = ?', 
                                         (novo_dado, id_item))
                                     print(
                                         f'O item de ID: {id_item} foi alterado'
-                                        +f' para {novo_dado} com sucesso!')
+                                        f' para {novo_dado} com sucesso!')
 
                                     conn.commit()
 
