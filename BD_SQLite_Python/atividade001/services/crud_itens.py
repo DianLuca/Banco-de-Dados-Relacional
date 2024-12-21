@@ -247,11 +247,15 @@ class Alterar(Crud):
                         print('Insira um valor válido para executar a '
                               'operação!')
                     sair = input(
-                        'Deseja alterar mais algum item?(S - Sim) ').lower().strip()
+                        'Deseja alterar mais algum item?'
+                        +'(S - Sim) ').lower().strip()
                     if sair != 's':
                         break
 
         except sqlite3.Error as e:
-            print(f'Aconteceu um erro ao inserir o dados: \n{e}')
-        except:
-            print('Houve um erro ao inserir um dado. Tente novamente!')
+            print(f'Erro ao inserir o dados: \n{e}')
+        except sqlite3.IntegrityError as e:
+            print('Erro ao inserir um dado. Tente novamente!\n', e)
+        except IndexError as e:
+            print('Erro. Tentativa de acessar um índice fora do intervalo'
+                  +' válido da string.\n', e)

@@ -2,7 +2,14 @@
 import sqlite3
 
 
-def validar(item, tabela):
+def validar(itens, tabela):
+    """
+    Valida um ou mais itens para inserção em uma tabela do banco de dados.
+
+    :param itens: lista de valores a serem validados.
+    :param tabela: nome da tabela no banco de dados.
+    :return: True se todos os itens forem válidos, False caso contrário.
+    """
     try:
         with sqlite3.connect('..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
                              + '\\atividade001\\database\\airlines.db') as conn:
@@ -26,47 +33,39 @@ def validar(item, tabela):
 
             if not campos:
                 print(f'A tabela {tabela} não possuí nenhum campo.')
-
-            elementos = []
-            elementos.append(item)
-            
-            for campo, tipo in campos:
-                # Tem que haver uma verificação para o segundo elemento que irá ser inserido e assim sucessivamente
-                for i, elemento in elementos:
                 
-                    if campo in campos_nulos and not elemento:
-                        print(f'Erro: o campo "{campo}" é obrigatório.')
+            for i, (campo, tipo) in enumerate(campos):
+                valor = itens[i]
+                # print(valor)
+                print(valor)
+                if campo in campos_nulos and (valor is None or valor == ''):
+                    print(f'Erro: o campo "{campo}" é obrigatório.')
+                    return False
+
+                if tipo.upper() == 'INTEGER' and not str(valor).isdigit():
+                    print(
+                        f'O campo {campo} requer um valor númerico inteiro!')
+                    return False
+
+                elif tipo.upper() == 'REAL':
+                    try:
+                        float(valor)
+                        break
+                    except (ValueError, TypeError):
+                        print(
+                            f'O campo {campo} requer um valor númerico decimal!')
                         return False
-                    
-                    if tipo.upper() == 'INTEGER':
-                        if elemento.isdigit():
-                            # Se o item comprir as necessidades para a verificação, do contrário vai para a próxima checagem.
-                            break
-                        else:
-                            print(
-                                f'O campo {campo} requer um valor númerico inteiro!')
-                            return False
 
-                    elif tipo.upper() == 'REAL':
-                        try:
-                            break
-                        except ValueError:
-                            print(
-                                f'O campo {campo} requer um valor númerico decimal!')
-                            return False
+                elif tipo.upper not in ['INTEGER', 'REAL'] and not valor:
+                    print('O campo não pode estar vazio!')
+                    return False
 
-                    else:
-                        if elemento:
-                            break
-                        else:
-                            print('O campo não pode estar vazio!')
-                            return False
-
+            return True
 
     except sqlite3.IntegrityError as e:
         print(f'Erro de integridade: {e}')
     except sqlite3.Error as e:
-        print(f'Erro ao inserir os dados: {e}')
+        print(f'Erro ao acessar o banco de dados: {e}')
 
 
 def validar_campo(campo, tabela):
@@ -88,7 +87,7 @@ def validar_campo(campo, tabela):
 
 def validar_menu(menu):
     try:
-        if menu and 1 <= int(menu) <= 7: 
+        if menu and 1 <= int(menu) <= 7:
             return True
     except ValueError:
         pass
