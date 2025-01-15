@@ -8,7 +8,7 @@ os.system('cls')
 # Conexão com o banco de dados (arquivo será criado se não existir)
 
 # Caminho relativo
-db_path = Path('BD') / 'bd_rel_1_n.db'
+db_path = Path('BD_SQLite_Python') / 'bd_rel_1_n.db'
 conn = sqlite3.connect(str(db_path))
 cursor = conn.cursor()
 
@@ -164,7 +164,7 @@ def alterar_pedido():
         
         # Atualiza os dados do pedido
         cursor.execute('''
-        UPDATE Pedidos SET produto = ?, quantidade = ?, data = ? valor_total = ?
+        UPDATE Pedidos SET produto = ?, quantidade = ?, data = ?, valor_total = ?
         WHERE id_pedido = ?
         ''', (produto, int(quantidade), data, float(valor_total), id_pedido,))
         conn.commit()
@@ -175,19 +175,28 @@ def alterar_pedido():
         print('-' * 70)
         
 while True:
+    os.system('cls')
     print('\nMenu:')
     print('1 - Inserir Cliente \n2 - Inserir Pedido '
           '\n3 - Consultar Pedidos \n4 - Alterar Pedido \n5 - Sair')
-    opcao = input('Escolha uma opção:')
+    opcao = input('Escolha uma opção: ')
     
     if opcao == '1':
+        os.system('cls')
         inserir_cliente()
+        input('Pressione Enter para voltar ao menu: ')
     if opcao == '2':
+        os.system('cls')
         inserir_pedido()
+        input('Pressione Enter para voltar ao menu: ')
     if opcao == '3':
+        os.system('cls')
         consultar_pedidos()
+        input('Pressione Enter para voltar ao menu: ')
     if opcao == '4':
+        os.system('cls')
         alterar_pedido()
+        input('Pressione Enter para voltar ao menu: ')
     if opcao == '5':
         print('Saindo...')
         break
