@@ -28,7 +28,7 @@ while True:
             os.system('cls')
             apresentar = Option_Exibir()
             apresentar.apresentar()
-            input('\nVoltar ao menu: ')
+            input('Voltar ao menu: ')
             break
 
 # CREATE ----
@@ -37,7 +37,7 @@ while True:
             os.system('cls')
             inserir = Option_Adicionar()
             inserir.adicionar()
-            input('\nVoltar ao menu principal: ')
+            input('Voltar ao menu principal: ')
             break
 
 # UPDATE ----

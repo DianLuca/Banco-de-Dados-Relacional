@@ -13,7 +13,8 @@ sub_menu = {
     '4': 'Passageiro',
     '5': 'Passagem',
     '6': 'Servico',
-    '7': 'Voo'
+    '7': 'Voo',
+    'Enter': 'Voltar'
 }
 
 
@@ -38,12 +39,15 @@ class Option_Exibir(Options):
     def apresentar(self):
         for k, v in sub_menu.items():
             print(f'{k} - {v}', end=' | ')
-        menu_tabela = input(
+        menu_interno = input(
             '\nQual tabela você deseja exibir: ').lower().strip()
-        menu_selecionado = sub_menu.get(menu_tabela, 'Passagem')
-        print(f'\nExibindo a tabela de {menu_selecionado}(s)')
-        exibir = Exibir(menu_selecionado)
-        exibir.exibir()
+        os.system('cls')
+        reposta = validar_menu(menu_interno)
+        if reposta == True:
+            menu_selecionado = sub_menu.get(menu_interno)
+            print(f'\nExibindo a tabela de {menu_selecionado}(s)')
+            exibir = Exibir(menu_selecionado)
+            exibir.exibir()
 
 
 class Option_Adicionar(Options):
@@ -58,9 +62,6 @@ class Option_Adicionar(Options):
             menu_selecionado = sub_menu.get(menu_interno)
             adicionando = Adicionar(menu_selecionado.title())
             adicionando.adicionar()
-        else:
-            print(
-                f'A opção "{menu_interno}" selecionada não existe, tente novamente.')
 
 
 class Option_Alterar(Options):
@@ -74,9 +75,6 @@ class Option_Alterar(Options):
             menu_selecionado = sub_menu.get(menu_interno)
             alterando = Alterar(menu_selecionado.title())
             alterando.alterar()
-        else:
-            print(
-                f'A opção "{menu_interno}" selecionado não existe, tente novamente.')
 
 
 class Option_Apagar(Options):
@@ -91,6 +89,3 @@ class Option_Apagar(Options):
             menu_selecionado = sub_menu.get(menu_interno)
             apagando = Apagar(menu_selecionado)
             apagando.apagar()
-        else:
-            print(
-                f'A opção "{menu_interno}" selecionado não existe, tente novamente.')

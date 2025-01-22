@@ -161,8 +161,9 @@ class Apagar(Crud):
                     exibir.exibir()
 
                     removido = input(
-                        f'Qual id do item você deseja apagar na tabela '
-                        +f'{self.tabela}: ').strip()
+                        f'Pressione Enter para voltar ao menu ou '
+                        +f'\ndigite o id do item você deseja apagar na tabela'
+                        +f' {self.tabela}: ').strip()
 
                     if removido == '':
                         print('Insira um valor para executar a operação!')
@@ -230,7 +231,8 @@ class Alterar(Crud):
                         exibir.exibir()
 
                     id_item = input(
-                        f'Qual o id_{(self.tabela.lower())} do item que você '
+                        f'Pressione Enter para voltar ao menu ou '
+                        +f'o id_{(self.tabela.lower())} do item que você '
                         +'deseja alterar: ').strip()
 
                     campo = input(
