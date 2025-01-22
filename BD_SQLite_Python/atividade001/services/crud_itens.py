@@ -93,7 +93,6 @@ class Adicionar(Crud):
                             for campo in campos:
                                 if campo == 'preco':
                                     item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
-                                    # itens.append(item)
                                     if item.upper() == 'S':
                                         break
                                     else:
@@ -103,7 +102,6 @@ class Adicionar(Crud):
                                     exibir = Exibir(tabelas[i])
                                     exibir.exibir()
                                     item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
-                                    # itens.append(item)
                                     if item.upper() == 'S':
                                         break
                                     else:
@@ -234,13 +232,14 @@ class Alterar(Crud):
 
                     id_item = input(
                         f'Pressione Enter para voltar ao menu ou '
-                        +f'o id_{(self.tabela.lower())} do item que você '
+                        +f' digite o id_{(self.tabela.lower())} do item que você '
                         +'deseja alterar: ').strip()
-                    print(id_item)
+                    
+                    if id_item == '':
+                        break
 
                     campo = input(
                         'Qual campo você deseja alterar? ').lower().strip()
-                    print(campo)
                     resposta = utils.validar_campo(campo, self.tabela)
                     if id_item and resposta == True:
                         cursor.execute(
@@ -263,7 +262,6 @@ class Alterar(Crud):
                                 novo_dado = input(
                                     f'Insira o valor para o qual o {campo} '
                                     +'será alterado: ')
-                                print(novo_dado)
                                 valida_novo_dado = utils.validar(
                                     novo_dado, self.tabela) # Arrumar um método para validar a atualização de valores
                                 if novo_dado:
@@ -295,4 +293,4 @@ class Alterar(Crud):
             print('Erro ao inserir um dado. Tente novamente!\n', e)
         except IndexError as e:
             print('Erro. Tentativa de acessar um índice fora do intervalo'
-                  +' válido da string.\n', e)
+                  +' válido da string.\n Você não pode realizar esta alteração.', e)
