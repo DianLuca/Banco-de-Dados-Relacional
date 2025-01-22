@@ -34,7 +34,7 @@ class Options():
         pass
 
 
-class Option_Exibir():
+class Option_Exibir(Options):
     def apresentar(self):
         for k, v in sub_menu.items():
             print(f'{k} - {v}', end=' | ')
@@ -46,7 +46,7 @@ class Option_Exibir():
         exibir.exibir()
 
 
-class Option_Adicionar():
+class Option_Adicionar(Options):
     def adicionar(self):
         for k, v in sub_menu.items():
             print(f'{k} - {v}', end=' | ')
@@ -63,7 +63,7 @@ class Option_Adicionar():
                 f'A opção "{menu_interno}" selecionada não existe, tente novamente.')
 
 
-class Option_Alterar():
+class Option_Alterar(Options):
     def alterar(self):
         for k, v in sub_menu.items():
             print(f'{k} - {v}', end=' | ')
@@ -79,7 +79,7 @@ class Option_Alterar():
                 f'A opção "{menu_interno}" selecionado não existe, tente novamente.')
 
 
-class Option_Apagar():
+class Option_Apagar(Options):
     def apagar(self):
         for k, v in sub_menu.items():
             print(f'{k} - {v}', end=' | ')

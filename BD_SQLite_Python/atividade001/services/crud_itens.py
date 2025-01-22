@@ -85,9 +85,39 @@ class Adicionar(Crud):
                     itens = []
 
                     print(f'Inserindo item na tabela {self.tabela}:')
-                    for campo in campos:
-                        item = input(f'Insira um valor para {campo}: ').strip()
-                        itens.append(item)
+                    if self.tabela ==  'Passagem':
+                        tabelas = ['Passageiro', 'Voo', 'Empresa', 'Gate', 'Servico']
+                        for i in range(len(tabelas)):
+                            for campo in campos:
+                                if campo == 'preco':
+                                    item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
+                                    # itens.append(item)
+                                    if item.upper() == 'S':
+                                        break
+                                    else:
+                                        itens.append(item)
+                                else:
+                                    os.system('cls')
+                                    exibir = Exibir(tabelas[i])
+                                    exibir.exibir()
+                                    item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
+                                    # itens.append(item)
+                                    if item.upper() == 'S':
+                                        break
+                                    else:
+                                        itens.append(item)
+                                    i+=1
+                            break
+                                    
+                    else:
+                        for campo in campos:
+                            item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
+                            if item.upper() == 'S':
+                                break
+                            else:
+                                itens.append(item)
+                        
+                            
                         
                     resposta = utils.validar(itens, self.tabela)
                     if resposta != False:

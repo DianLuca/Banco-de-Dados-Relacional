@@ -37,7 +37,6 @@ def validar(itens, tabela):
             for i, (campo, tipo) in enumerate(campos):
                 valor = itens[i]
                 # print(valor)
-                print(valor)
                 if campo in campos_nulos and (valor is None or valor == ''):
                     print(f'Erro: o campo "{campo}" é obrigatório.')
                     return False
