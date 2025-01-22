@@ -16,6 +16,7 @@ criar_db()
 
 while True:
     os.system('cls')
+    print('-------- MENU PRINCIPAL --------')
     menu = input(
         '| 1 - Exibir | 2 - Adicionar | 3 - Atualizar | 4 - Apagar | 5 - Sair | \nQual a opção desejada: ').strip()
     if menu == '5':
@@ -28,7 +29,7 @@ while True:
             os.system('cls')
             apresentar = Option_Exibir()
             apresentar.apresentar()
-            input('Voltar ao menu: ')
+            input('Voltar ao menu principal: ')
             break
 
 # CREATE ----

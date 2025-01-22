@@ -41,6 +41,8 @@ class Exibir(Crud):
                                + 'AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto '
                                + 'WHERE passagem.id_passageiro = passageiro.id_passageiro AND passagem.id_empresa = empresa.id_empresa '
                                + 'AND passagem.id_gate = gate.id_gate AND passagem.id_servico = servico.id_servico AND passagem.id_voo = voo.id_voo;')
+            elif self.tabela == 'Voo':
+                cursor.execute('SELECT id_voo, numero_voo, origem.nome as origem, destino.nome as destino, data_ida, data_retorno FROM voo JOIN aeroporto AS origem ON voo.id_origem = origem.id_aeroporto JOIN aeroporto AS destino ON voo.id_destino = destino.id_aeroporto;')
             else:
                 cursor.execute(f'SELECT * FROM {self.tabela}')
             resultados = cursor.fetchall()
@@ -207,7 +209,7 @@ class Alterar(Crud):
                 while self.tabela:
                     os.system('cls')
                     print(f'Alterando um item na tabela {self.tabela}:\n')
-                    if self.tabela == 'Passagem':
+                    if self.tabela == 'Passagem' or self.tabela == 'Voo':
                         cursor.execute(f'SELECT * FROM {self.tabela}')
                         resultados = cursor.fetchall()
 
@@ -234,9 +236,11 @@ class Alterar(Crud):
                         f'Pressione Enter para voltar ao menu ou '
                         +f'o id_{(self.tabela.lower())} do item que você '
                         +'deseja alterar: ').strip()
+                    print(id_item)
 
                     campo = input(
                         'Qual campo você deseja alterar? ').lower().strip()
+                    print(campo)
                     resposta = utils.validar_campo(campo, self.tabela)
                     if id_item and resposta == True:
                         cursor.execute(
@@ -259,6 +263,7 @@ class Alterar(Crud):
                                 novo_dado = input(
                                     f'Insira o valor para o qual o {campo} '
                                     +'será alterado: ')
+                                print(novo_dado)
                                 valida_novo_dado = utils.validar(
                                     novo_dado, self.tabela) # Arrumar um método para validar a atualização de valores
                                 if novo_dado:
