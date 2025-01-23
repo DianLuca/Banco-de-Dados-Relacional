@@ -170,9 +170,9 @@ class Apagar(Crud):
                     exibir.exibir()
 
                     removido = input(
-                        f'Pressione Enter para voltar ao menu ou '
-                        +f'\ndigite o id do item você deseja apagar na tabela'
-                        +f' {self.tabela}: ').strip()
+                        f'Pressione Enter para voltar ao menu ou digite o id '
+                        +f'\ndo item você deseja apagar na tabela '
+                        +f'{self.tabela}: ').strip()
 
                     if removido == '':
                         print('Insira um valor para executar a operação!')
@@ -243,11 +243,9 @@ class Alterar(Crud):
                         f'Pressione Enter para voltar ao menu ou '
                         +f'o id_{(self.tabela.lower())} do item que você '
                         +'deseja alterar: ').strip()
-                    print(id_item)
 
                     campo = input(
                         'Qual campo você deseja alterar? ').lower().strip()
-                    print(campo)
                     resposta = utils.validar_campo(campo, self.tabela)
                     if id_item and resposta == True:
                         cursor.execute(
@@ -263,16 +261,14 @@ class Alterar(Crud):
                             for k, v in zip(colunas, resultado):
                                 print(f"{k}: {v}", end=" | ")
                             print()
-
                             if campo == (f'id_{self.tabela}').lower():
                                 print('NÃO É PERMITIDO ALTERAR O ID DO ELEMENTO!')
                             else:
                                 novo_dado = input(
                                     f'Insira o valor para o qual o {campo} '
                                     +'será alterado: ')
-                                print(novo_dado)
-                                valida_novo_dado = utils.validar(
-                                    novo_dado, self.tabela) # Arrumar um método para validar a atualização de valores
+                                # valida_novo_dado = utils.validar(
+                                #     novo_dado, self.tabela) # Arrumar um método para validar a atualização de valores
                                 if novo_dado:
                                     cursor.execute(
                                         f'UPDATE {self.tabela} SET {campo} = ?'
@@ -282,7 +278,7 @@ class Alterar(Crud):
                                         f'O item de ID: {id_item} foi alterado'
                                         f' para {novo_dado} com sucesso!')
 
-                                    conn.commit()
+                            conn.commit()
 
                         else:
                             print('O item selecionado não existe!')
@@ -301,5 +297,5 @@ class Alterar(Crud):
         except sqlite3.IntegrityError as e:
             print('Erro ao inserir um dado. Tente novamente!\n', e)
         except IndexError as e:
-            print('Erro. Tentativa de acessar um índice fora do intervalo'
-                  +' válido da string.\n', e)
+            print(f'Erro de índice ao manipular o campo {campo} '
+                +f'ou os dados da tabela {self.tabela}:\n', e)
