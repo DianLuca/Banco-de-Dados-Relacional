@@ -96,7 +96,6 @@ class Adicionar(Crud):
                             for campo in campos:
                                 if campo == 'preco':
                                     item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
-                                    # itens.append(item)
                                     if item.upper() == 'S':
                                         break
                                     else:
@@ -106,7 +105,6 @@ class Adicionar(Crud):
                                     exibir = Exibir(cabecalho_tabela[i])
                                     exibir.exibir()
                                     item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
-                                    # itens.append(item)
                                     if item.upper() == 'S':
                                         break
                                     else:
@@ -241,8 +239,11 @@ class Alterar(Crud):
 
                     id_item = input(
                         f'Pressione Enter para voltar ao menu ou '
-                        +f'o id_{(self.tabela.lower())} do item que você '
+                        +f' digite o id_{(self.tabela.lower())} do item que você '
                         +'deseja alterar: ').strip()
+                    
+                    if id_item == '':
+                        break
 
                     campo = input(
                         'Qual campo você deseja alterar? ').lower().strip()
