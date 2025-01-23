@@ -87,9 +87,12 @@ class Adicionar(Crud):
                     itens = []
 
                     print(f'Inserindo item na tabela {self.tabela}:')
-                    if self.tabela ==  'Passagem':
-                        tabelas = ['Passageiro', 'Voo', 'Empresa', 'Gate', 'Servico']
-                        for i in range(len(tabelas)):
+                    if self.tabela ==  'Passagem' or self.tabela == 'Voo':
+                        if self.tabela == 'Passagem':
+                            cabecalho_tabela = ['Passageiro', 'Voo', 'Empresa', 'Gate', 'Servico']
+                        if self.tabela == 'Voo':
+                            cabecalho_tabela = ['Aeroporto']
+                        for i in range(len(cabecalho_tabela)):
                             for campo in campos:
                                 if campo == 'preco':
                                     item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
@@ -100,7 +103,7 @@ class Adicionar(Crud):
                                         itens.append(item)
                                 else:
                                     os.system('cls')
-                                    exibir = Exibir(tabelas[i])
+                                    exibir = Exibir(cabecalho_tabela[i])
                                     exibir.exibir()
                                     item = input(f'Insira um valor para {campo} (S - Sair): ').strip()
                                     # itens.append(item)
@@ -108,7 +111,11 @@ class Adicionar(Crud):
                                         break
                                     else:
                                         itens.append(item)
-                                    i+=1
+                                    
+                                    if self.tabela == 'Passagem':
+                                        i+=1
+                                    else:
+                                        i == 0
                             break
                                     
                     else:
