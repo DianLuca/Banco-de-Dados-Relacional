@@ -268,9 +268,9 @@ class Alterar(Crud):
                                 novo_dado = input(
                                     f'Insira o valor para o qual o {campo} '
                                     +'será alterado: ')
-                                # valida_novo_dado = utils.validar(
-                                #     novo_dado, self.tabela) # Arrumar um método para validar a atualização de valores
-                                if novo_dado:
+                                valida_novo_dado = utils.validar_atualizar(
+                                    novo_dado, campo, self.tabela)
+                                if valida_novo_dado == True:
                                     cursor.execute(
                                         f'UPDATE {self.tabela} SET {campo} = ?'
                                         f'WHERE id_{self.tabela} = ?', 

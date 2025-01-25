@@ -90,3 +90,40 @@ def validar_menu(menu):
             return True
     except ValueError:
         pass
+
+
+def validar_atualizar(novo_item, campo, tabela):
+    
+    if not novo_item:
+        print('O valor inserido não pode ser vazio! Tente novamente.')
+        return False
+    
+    with sqlite3.connect('..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
+                             + '\\atividade001\\database\\airlines.db') as conn:
+    
+    
+        cursor = conn.cursor()
+        
+        cursor.execute(f'PRAGMA table_info({tabela})')
+        colunas = cursor.fetchall()
+        
+        for coluna in colunas:
+            if campo == coluna[1]:
+                if coluna[2] == 'INTEGER' and not str(novo_item).isdigit():
+                    print('O elemento só pode ser alterado para outro valor numérico inteiro! Tente novamente.')
+                    return False
+                
+                if coluna[2] == 'REAL':
+                    try:
+                        float(campo)
+                        break
+                    except (TypeError, ValueError):
+                        print('O elemento só pode ser alterado para outro valor numérico decimal! Tente novamente.')
+                        return False
+
+        
+        confirmacao = input('Realmente deseja executar essa atualização (S - Sim): ').strip()
+        if confirmacao == 'S':
+            return True
+        else: 
+            return False
