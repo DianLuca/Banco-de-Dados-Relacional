@@ -1,5 +1,6 @@
 # Módulo para validação de itens
 import sqlite3
+import database.manipulacao_db as banco
 
 
 def validar(itens, tabela):
@@ -11,8 +12,7 @@ def validar(itens, tabela):
     :return: True se todos os itens forem válidos, False caso contrário.
     """
     try:
-        with sqlite3.connect('..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                             + '\\atividade001\\database\\airlines.db') as conn:
+        with banco.conectar_bd() as conn:
 
             cursor = conn.cursor()
 
@@ -68,8 +68,7 @@ def validar(itens, tabela):
 
 
 def validar_campo(campo, tabela):
-    with sqlite3.connect('..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                         + '\\atividade001\\database\\airlines.db') as conn:
+    with banco.conectar_bd() as conn:
 
         cursor = conn.cursor()
 
@@ -98,8 +97,7 @@ def validar_atualizar(novo_item, campo, tabela):
         print('O valor inserido não pode ser vazio! Tente novamente.')
         return False
     
-    with sqlite3.connect('..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                             + '\\atividade001\\database\\airlines.db') as conn:
+    with banco.conectar_bd() as conn:
     
     
         cursor = conn.cursor()

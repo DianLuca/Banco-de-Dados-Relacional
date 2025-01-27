@@ -1,6 +1,21 @@
 # Para criação do banco de dados
 import sqlite3
 import time
+import os
+
+
+def conectar_bd():
+    try:
+        caminho_absoluto = os.path.dirname(os.path.abspath(__file__))
+        
+        caminho_banco = os.path.join(caminho_absoluto, 'airlines.db')
+
+        conn = sqlite3.connect(caminho_banco)
+    
+        return conn
+    
+    except OSError as e:
+        print('Não foi possível encontrar o caminho do arquivo!', e)
 
 
 def criar_db():
@@ -14,9 +29,11 @@ def criar_db():
     # banco não seja encontrado.
     try:
         # conn = sqlite3.connect('') # Para execução de testes.
-        with sqlite3.connect(
-                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                +'\\atividade001\\database\\airlines.db') as conn:
+        with conectar_bd() as conn:
+            
+        # with sqlite3.connect(
+        #         '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
+        #         +'\\atividade001\\database\\airlines.db') as conn:
             cursor = conn.cursor()
 
             cursor.execute(''' CREATE TABLE IF NOT EXISTS Passageiro (
@@ -87,4 +104,4 @@ def criar_db():
         print(f"Erro no SQLite: {e}")
         
     print(f'Programa iniciando aguarde! ')
-    time.sleep(2)
+    time.sleep(3)

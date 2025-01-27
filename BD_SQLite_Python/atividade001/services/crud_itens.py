@@ -3,6 +3,7 @@ import sqlite3
 import os
 from prettytable import PrettyTable
 import models.utils as utils
+import database.manipulacao_db as banco
 
 
 class Crud():
@@ -28,9 +29,7 @@ class Crud():
 class Exibir(Crud):
     def exibir(self):
 
-        with sqlite3.connect(
-                '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                +'\\atividade001\\database\\airlines.db') as conn:
+        with banco.conectar_bd() as conn:
 
             cursor = conn.cursor()
 
@@ -66,9 +65,7 @@ class Adicionar(Crud):
     def adicionar(self):
         try:
             # Abre e fecha a conexão com o banco quando a operação for realizada
-            with sqlite3.connect(
-                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                    + '\\atividade001\\database\\airlines.db') as conn:
+            with banco.conectar_bd() as conn:
 
                 cursor = conn.cursor()
 
@@ -154,9 +151,7 @@ class Adicionar(Crud):
 class Apagar(Crud):
     def apagar(self):
         try:
-            with sqlite3.connect(
-                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                    +'\\atividade001\\database\\airlines.db') as conn:
+            with banco.conectar_bd() as conn:
 
                 cursor = conn.cursor()
 
@@ -205,9 +200,7 @@ class Apagar(Crud):
 class Alterar(Crud):
     def alterar(self):
         try:
-            with sqlite3.connect(
-                    '..\\Banco-de-Dados-Relacional\\BD_SQLite_Python'
-                    +'\\atividade001\\database\\airlines.db') as conn:
+            with banco.conectar_bd() as conn:
 
                 cursor = conn.cursor()
 
