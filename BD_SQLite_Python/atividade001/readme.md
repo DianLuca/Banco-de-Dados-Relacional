@@ -26,9 +26,11 @@
 ## Instalação
 
 <p>
-    É possível executar a partir do executável na pasta exe, ou 
-    você precisará ter o Python 3.12 ou superior e executá-lo no 
-    terminal do VS Code. Após isso, baixe os arquivos e execute.
+    É possível baixar o arquivo diretamente pelo link abaixo ou veja o tópico Uso.
+    
+    Baixe o arquivo:
+    [Baixar Pasta](https://downgit.github.io/#/home?url=https://github.com/DianLuca/Banco-de-Dados-Relacional/tree/main/BD_SQLite_Python/atividade001/exe/AirSystem)
+
 
     **Notas importantes:**
 
