@@ -26,7 +26,8 @@
 ## Instalação
 
 <p>
-    Para a utilização deste sistema, você precisará ter o Python 3.12 ou superior e executá-lo no 
+    É possível executar a partir do executável na pasta exe, ou 
+    você precisará ter o Python 3.12 ou superior e executá-lo no 
     terminal do VS Code. Após isso, baixe os arquivos e execute.
 
     **Notas importantes:**
