@@ -27,7 +27,6 @@
 
 <p>
     É possível baixar o arquivo diretamente pelo link abaixo ou veja o tópico Uso.
-    
     Baixe o arquivo:
     [Baixar Pasta](https://downgit.github.io/#/home?url=https://github.com/DianLuca/Banco-de-Dados-Relacional/tree/main/BD_SQLite_Python/atividade001/exe/AirSystem)
 
