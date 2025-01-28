@@ -33,14 +33,33 @@
 
     1. Verifique se o arquivo de configuração está correto.
     2. Caso necessário, apague o arquivo `airlines.db` na pasta `database`.
-    3. Um arquivo executável será implementado nas próximas versões.
-    4. O sistema é compatível apenas com Windows.
+    3. O sistema é compatível apenas com o sistema operacional Windows.
+
 </p>
 
 ## Uso
 
 <p>
-  
+    Para utilizar o sistema basta baixar o arquivo .exe, no diretório exe ou 
+    baixar todos os arquivos e executar o arquivo main. Durante a execução
+    é possível: 
+
+</p>
+
+<ol>
+    <li>Menu: Permite selecionar a ação que você deseja.</li>
+    <li>Sub-menu: Seleção em qual local você deseja realizar esta operação.</li>
+    <li>Exibir: Exibe as informações contidas na tabela desejada.</li>
+    <li>Adicionar: Adiciona novos dados a tabela desejada.</li>
+    <li>Alterar: Permite a alteração dos dados na tabela desejada.</li>
+    <li>Apagar: Remove um dado conforme a necessidade.</li>
+</ol>
+
+<p>
+    **INFO:**
+
+    1. Durante a inserção, alteração e remoção de dados é possível retornar ao menu 
+    e a operação será cancelada.
 </p>
 
 ## Conclusão

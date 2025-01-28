@@ -171,16 +171,28 @@ class Apagar(Crud):
                         print('Insira um valor para executar a operação!')
                     else:
                         cursor.execute(
-                            f'SELECT id_{self.tabela} FROM {self.tabela} '
+                            f'SELECT * FROM {self.tabela} '
                             f'WHERE id_{self.tabela} = ?', (removido,))
                         resultado = cursor.fetchone()
-                        if resultado:
-                            cursor.execute(
-                                f'DELETE FROM {self.tabela} WHERE '
-                                f'id_{self.tabela} = ?', (removido,))
-                            conn.commit()
+                        colunas = [descricao[0]
+                                    for descricao in cursor.description]
 
-                            print('O item foi removido com sucesso!')
+                        # Imprime o par nome-coluna e valor utilizando zip
+                        for k, v in zip(colunas, resultado):
+                            print(f"{k}: {v}", end=" | ")
+                        print()
+                        
+                        if resultado:
+
+                            confirmacao = input('Realmente deseja apagar este dado (S - Sim)? ').strip()
+                            
+                            if confirmacao == 'S':
+                                cursor.execute(
+                                    f'DELETE FROM {self.tabela} WHERE '
+                                    f'id_{self.tabela} = ?', (removido,))
+                                conn.commit()
+
+                                print('O item foi removido com sucesso!')
                         else:
                             print('O item não está na lista ou não existe! ')
 
