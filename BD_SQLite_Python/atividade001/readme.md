@@ -41,10 +41,9 @@
 ## Uso
 
 <p>
-    Para utilizar o sistema basta baixar o arquivo .exe, no diretório exe ou 
-    baixar todos os arquivos e executar o arquivo main. Durante a execução
-    é possível: 
-
+    Para utilizar o sistema basta baixar a pasta AirSystem, no diretório exe e executar o arquivo
+    'Sistema Gerenciador de Passagens Aereas.exe' que está dentro desse diretório ou baixar todos 
+    os arquivos e executar o arquivo main. Durante a execução é possível: 
 </p>
 
 <ol>
